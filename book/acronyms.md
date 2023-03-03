@@ -1,14 +1,11 @@
 # Acronyms
 
-Here follows a formatted list of acronyms.
-2nd commit
-3rd commit
+Here follows a list of acronyms.
 
-| Acronym | Meaning | 
+| Acronym | Meaning |  
 | :-: | :-: |
 |acdm | Absorption coefficient for color detrital matter |
 |AMSR |	Advanced Microwave Scanning Radiometer |
-|BL	| Barrier-Layer |
 |BLT | 	Barrier-Layer Thickness |
 |CAP |	Combined Active-Passive | 
 |CATDS |	Centre Aval de Traitement des DonnÃ©es SMOS |
@@ -93,3 +90,4 @@ Here follows a formatted list of acronyms.
 |VV |  	Vertically-polarized emitted Vertically-polarized received |
 |WOCE |	World Ocean Circulation Experiment |
 |WOD |	World Ocean Database |
+
