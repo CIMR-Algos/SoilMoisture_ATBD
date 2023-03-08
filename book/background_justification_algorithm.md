@@ -12,7 +12,6 @@ Passive remote sensing of soil moisture is a technique used to estimate soil moi
 
 Passive remote remote sensors measure microwave emissions from the Earth's surface, and have been successful in providing accurate and reliable estimates of soil moisture content at global scales.
 
-
 ## Historical heritage
 The history of passive remote sensing for soil moisture estimation dates back to the early 1960s. During this period [1], researchers began to look at ways of using microwaves to measure water content in the soil. The first successful experiments used a single-channel microwave radiometer to measure the brightness temperature of the surface of the Earth. This data was then used to calculate the soil moisture content.
 
@@ -24,9 +23,6 @@ Since then, passive remote sensing for soil moisture estimation has gone through
 
 
 ## Justification of selected algorithm
-
-## Model for the dielectric constant of the seawater at L-band
-
 
 
 
