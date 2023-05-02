@@ -6,3 +6,4 @@ all:
 
 clean:
 	rm -rf ./_build
+	Remove-Item -Path "./_build" -Recurse -Force  (en windows)
