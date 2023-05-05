@@ -45,29 +45,23 @@ This relationship between soil moisture and soil dielectric constant (and conseq
 
 ### Retrieval Method
 
-The process of obtaining soil moisture (SM) and vegetation optical depth (VOD) requires minimizing the given cost function, x:
+The procedure to acquire soil moisture (SM) and vegetation optical depth (VOD, also denoted as τ) requires the minimization of the cost function F, as shown in {eq}`cost_fun`.
 
 ```{math}
 :label: cost_fun
-$$x=\sum_{i=1}^n\frac{(TBp(\theta)_{mes}-TBp(\theta))^2}{\sigma(TB)^2}+\sum_{i=1}^2\frac{(P_{ini,i}-P_i)^2}{\sigma(P_i)^2}$$
+$$
+F(SM, \tau) = \frac{(TB_p^{obs} - TB_p)^2}{\sigma(TB)^2} + \sum_{i=1}^2\frac{(P_{i}^{ini} - P_i)^2}{\sigma(P_i)^2}
+$$
 ```
 
-In this equation:
+where the term $TB_p^\text{obs}$ refers to the observed value, while $\sigma(TB)$ denotes the standard deviation associated with the brightness temperature measurements (a constant value of 1 K is used). Additionally, $TB_p(\theta)$ is the brightness temperature calculated using Equation {eq}`TB-tauomega`. The equation also incorporates a regularization term, where $P_i$ ($i = 1, 2$) represents the retrieved parameter value (SM, VOD), $P_i^\text{ini}$ ($i = 1, 2$) is an a priori estimate of the parameter $P_i$, and $\sigma(P_i)$ is the standard deviation associated with this estimate.
 
-- N represents the total number of observations for different viewing angles (θ) and both polarizations (H, V).
-- TB_p(θ)_mes is the measured value over the SMOS pixels from the SMOSL3 TB product (discussed in Section 2.2.2).
-- σ(TB) is the standard deviation associated with the brightness temperature measurements (a constant value of 4 K was used in this study).
-- TB_p(θ) is the brightness temperature calculated using Equation (1).
-- P_i (i = 1, 2) is the retrieved parameter value (SM, VOD).
-- P_inii (i = 1, 2) is an a priori estimate of the parameter P_i.
-- σ(P_i) is the standard deviation associated with this estimate.
+An initial constant value of 0.2 m^3/m^3 is assumed for SM and $\sigma(SM)$, while the value of $\tau_{NAD}$ is set to the average yearly value (calculated from previous runs). The $\sigma(\tau_{NAD})$ is computed as shown in Equation {eq}`sigma_tau`.
 
-A constant initial value of 0.2 m³/m³ was considered for SM and σ(SM), and the value of τ_NAD was set equal to a yearly average value (calculated from previous runs). σ(τ_NAD) was determined as follows:
-
-
-
-The regularization term 𝜆2(𝜏−𝜏∗)2 was applied to reduce the temporal and spatial noise caused by the nature of the cost function. 𝜏∗ is the initial guess for the unknown vegetation optical depth derived from MODIS NDVI vegetation water content climatology. The parameter 𝜆 is the regularization parameter weight which was assumed to be 𝜆=20. The 𝜆 value was selected trying to balance the noise reduction and at the same time to give the optimization process enough freedom to converge to values sufficiently distant from 𝜏∗. Figure 16 shows an example of the cost function for different values of 𝜆. The black point represents the initial guess and the red points are the solution when the observed brightness temperatures are perturbed with noise. While for 𝜆 = 0, the solutions jump along the blue valley (very noisy), the solutions for 𝜆 = 40 (center) get clustered very close to the 𝜏∗ initial guess value, a situation that is not desired due to the nature of the NDVI tau. Therefore, as a compromise, 𝜆 was set equal to 20. Figure 17 displays histograms of the standard deviation of the Nyquist frequency for the global daily climatology of DCA tau before and after regularization; the clear shift of the peak to the left of the histograms shows the reduction of the temporal noise in the retrievals of the vegetation optical depth. The selection of the parameter 𝜆 based on the standard deviation of the Nyquist frequency of DCA 𝜏 (without regularization, 𝜆 = 0 ) time series at a particular grid point and the initial guess 𝜏∗ based on DCA climatology will be the subject of future work.
-
+```{math}
+:label: sigma_tau
+\sigma(\tau_{NAD}) = \min(0.1 + 0.3 \cdot \tau_{NAD}, 0.3)
+```
 
 ### CIMR Level-1b re-sampling approach
 
@@ -76,9 +70,9 @@ Subsection Text
 
 ### Algorithm Assumptions and Simplifications
 
-THERMAL EQUILIBRIUM !!!! ¿?¿¿????? 
+- THERMAL EQUILIBRIUM 
 
-Q and N parameters of the soil roughness model
+- Q and N parameters of the soil roughness model
 
 ### Level-2 end to end algorithm functional flow diagram
 
@@ -91,9 +85,22 @@ Subsection Text
 ##### Mathematical description
 
 SubSubsection Text
+
 ##### Input data
 
-SubSubsection Text
+The processing algorithm primarily relies on the CIMR TB product that is calibrated, geolocated, and adjusted to the EASE2 grid. Previously, the TB data undergoes several corrections, such as atmospheric effects, Faraday rotation and RFI effects.
+
+Besides TB measurements, the CIMR retrieval algorithm uses supplementary datasets for accurate soil moisture extraction. The required data encompasses:
+
+• Surface temperature
+• Soil texture (clay fraction)
+• Land cover type classification
+• Vegetation single scattering albedo
+• Surface roughness information
+• Data flags for identification of land, water, RFI, urban areas, mountainous terrain and permanent ice/snow.
+
+The specific parameters and sources of these parameters are detailed in the Ancillary data section.
+
 
 ##### Output data
 
