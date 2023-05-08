@@ -14,7 +14,7 @@ The retrieval of soil moisture from CIMR surface TB observations relies on a wid
 
 ```{math}
 :label: TB-tauomega
-$TB_p = T_s e_p exp{(-\tau_p \sec \theta)} + T_c (1 - \omega_p)[1 - \exp(-\tau_p \sec \theta)][1 + r_p \exp(-\tau_p \sec \theta)]$
+TB_p = T_s e_p exp{(-\tau_p \sec \theta)} + T_c (1 - \omega_p)[1 - \exp(-\tau_p \sec \theta)][1 + r_p \exp(-\tau_p \sec \theta)]
 ```
 
 
@@ -49,14 +49,12 @@ The procedure to acquire soil moisture (SM) and vegetation optical depth (VOD, a
 
 ```{math}
 :label: cost_fun
-$$
 F(SM, \tau) = \frac{(TB_p^{obs} - TB_p)^2}{\sigma(TB)^2} + \sum_{i=1}^2\frac{(P_{i}^{ini} - P_i)^2}{\sigma(P_i)^2}
-$$
 ```
 
 where the term $TB_p^\text{obs}$ refers to the observed value, while $\sigma(TB)$ denotes the standard deviation associated with the brightness temperature measurements (a constant value of 1 K is used). Additionally, $TB_p(\theta)$ is the brightness temperature calculated using Equation {eq}`TB-tauomega`. The equation also incorporates a regularization term, where $P_i$ ($i = 1, 2$) represents the retrieved parameter value (SM, VOD), $P_i^\text{ini}$ ($i = 1, 2$) is an a priori estimate of the parameter $P_i$, and $\sigma(P_i)$ is the standard deviation associated with this estimate.
 
-An initial constant value of 0.2 m^3/m^3 is assumed for SM and $\sigma(SM)$, while the value of $\tau_{NAD}$ is set to the average yearly value (calculated from previous runs). The $\sigma(\tau_{NAD})$ is computed as shown in Equation {eq}`sigma_tau`.
+An initial constant value of $0.2 m^3/m^3$ is assumed for SM and $\sigma(SM)$, while the value of $\tau_{NAD}$ is set to the average yearly value (calculated from previous runs). The $\sigma(\tau_{NAD})$ is computed as shown in Equation {eq}`sigma_tau`.
 
 ```{math}
 :label: sigma_tau
@@ -70,7 +68,7 @@ Subsection Text
 
 ### Algorithm Assumptions and Simplifications
 
-- THERMAL EQUILIBRIUM 
+- The thermal equilibrium
 
 - Q and N parameters of the soil roughness model
 
@@ -92,19 +90,43 @@ The processing algorithm primarily relies on the CIMR TB product that is calibra
 
 Besides TB measurements, the CIMR retrieval algorithm uses supplementary datasets for accurate soil moisture extraction. The required data encompasses:
 
-• Surface temperature
-• Soil texture (clay fraction)
-• Land cover type classification
-• Vegetation single scattering albedo
-• Surface roughness information
-• Data flags for identification of land, water, RFI, urban areas, mountainous terrain and permanent ice/snow.
+- Surface temperature
+- Soil texture (clay fraction)
+- Land cover type classification
+- Vegetation single scattering albedo
+- Surface roughness information
+- Data flags for identification of land, water, urban areas, permanent ice/snow, and topographic effects
+
+
+The surface temperature is the soil/canopy temperature obtained from the Ka band using the formulation of Holmes that relies on the Ka band {cite:p}`holmes2009`. 
 
 The specific parameters and sources of these parameters are detailed in the Ancillary data section.
 
 
 ##### Output data
 
-SubSubsection Text
+In the output data, the retrieved parameters, soil moisture and vegetation, are included along with their associated errors. Additionally, this information is supplemented with the acquisition time, location (latitude, longitude), row and column indices in the EASE V2 grid, flags indicating data quality, and ancillary data such as single scattering albedo, soil roughness, clay fraction, and land cover class percentages per pixel.
+
+- Vegetation_Optical depth
+- Latitude (degrees)
+- Longitude (degrees)
+- Soil_Moisture: in $m^3/m^3$
+- Soil_Moisture_StdError: Error on the derived Soil moisture in $m^3/m^3$
+- Quality flags
+- Soil and canopy temperature
+- Days
+- UTC time in seconds
+- EASE row index: Global 36-km EASE2 Grid 0-based row index EASE_column_index
+- EASE column index: Global 36-km EASE2 Grid 0-based column index EASE_column_index
+- Single scattering albedo
+- Soil roughness
+- Clay fraction
+
+
+
+
+
+The specific parameters and sources of these parameters are detailed in the Ancillary data section.
 
 <!--
 ##### Auxiliary data
@@ -114,25 +136,32 @@ SubSubsection Text
 
 ##### Ancillary data
 
-| ID | MODIS IGBP land classification | SMAP SCA | SMAP L4 | SMAP MTDCA | CIMR | SMAP DCA |
-|----|--------------------------------|----------|---------|------------|---------|----------|
-| 0 | Water Bodies | 0.000 | -- | 0.00 | 0.00 | 0.00 |
-| 1 | Evergreen Needleleaf Forests | 0.050 | 0.11 | 0.07 | 0.06 | 0.07 |
-| 2 | Evergreen Broadleaf Forests | 0.050 | 0.07 | 0.08 | 0.06 | 0.07 |
-| 3 | Deciduous Needleleaf Forests | 0.050 | 0.11 | 0.06 | 0.06 | 0.07 |
-| 4 | Deciduous Broadleaf Forests | 0.050 | 0.09 | 0.07 | 0.06 | 0.07 |
-| 5 | Mixed Forests | 0.050 | 0.10 | 0.07 | 0.06 | 0.07 |
-| 6 | Closed Shrublands | 0.050 | 0.09 | 0.08 | 0.10 | 0.08 |
-| 7 | Open Shrublands | 0.050 | 0.09 | 0.06 | 0.08 | 0.07 |
-| 8 | Woody Savannas | 0.050 | 0.12 | 0.08 | 0.06 | 0.08 |
-| 9 | Savannas | 0.080 | 0.13 | 0.07 | 0.10 | 0.10 |
-| 10 | Grasslands | 0.050 | 0.06 | 0.06 | 0.10 | 0.07 |
-| 11 | Permanent Wetlands | 0.000 | 0.13 | 0.16 | 0.10 | 0.10 |
-| 12 | Croplands - Average | 0.050 | 0.10 | 0.10 | 0.12 | 0.06 |
-| 13 | Urban and Built-up Lands | 0.030 | 0.10 | 0.08 | 0.10 | 0.08 |
-| 14 | Crop-land/Natural Vegetation Mosaics | 0.065 | 0.14 | 0.09 | 0.12 | 0.10 |
-| 15 | Snow and Ice | 0.000 | 0.09 | 0.11 | 0.10 | 0.00 |
-| 16 | Barren | 0.000 | 0.07 | 0.02 | 0.12 | 0.00 |
+| ID | MODIS IGBP land classification | SMAP MTDCA | SMAP DCA | CIMR |
+|----|--------------------------------|------------|----------|------|
+| 0  | Water Bodies                   | 0.00       | 0.00     | 0.00 |
+| 1  | Evergreen Needleleaf Forests   | 0.07       | 0.07     | 0.06 |
+| 2  | Evergreen Broadleaf Forests    | 0.08       | 0.07     | 0.06 |
+| 3  | Deciduous Needleleaf Forests   | 0.06       | 0.07     | 0.06 |
+| 4  | Deciduous Broadleaf Forests    | 0.07       | 0.07     | 0.06 |
+| 5  | Mixed Forests                  | 0.07       | 0.07     | 0.06 |
+| 6  | Closed Shrublands              | 0.08       | 0.08     | 0.10 |
+| 7  | Open Shrublands                | 0.06       | 0.07     | 0.08 |
+| 8  | Woody Savannas                 | 0.08       | 0.08     | 0.06 |
+| 9  | Savannas                       | 0.07       | 0.10     | 0.10 |
+| 10 | Grasslands                     | 0.06       | 0.07     | 0.10 |
+| 11 | Permanent Wetlands             | 0.16       | 0.10     | 0.10 |
+| 12 | Croplands - Average            | 0.10       | 0.06     | 0.12 |
+| 13 | Urban and Built-up Lands       | 0.08       | 0.08     | 0.10 |
+| 14 | Crop-land/Natural Vegetation Mosaics | 0.09 | 0.10     | 0.12 |
+| 15 | Snow and Ice                   | 0.11       | 0.00     | 0.10 |
+| 16 | Barren                         | 0.02       | 0.00     | 0.12 |
+
+
+
+
+    |
+
+
 
 
 ##### Validation process

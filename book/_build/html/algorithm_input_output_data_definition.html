@@ -94,6 +94,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'algorithm_input_output_data_definition';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -673,11 +675,6 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#auxiliary-data">
-   Auxiliary data
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#ancillary-data">
    Ancillary data
   </a>
@@ -695,19 +692,142 @@ title="Print to PDF"
 <h1>Algorithm Input and Output Data Definition (IODD)<a class="headerlink" href="#algorithm-input-and-output-data-definition-iodd" title="Permalink to this heading">#</a></h1>
 <section id="input-data">
 <h2>Input data<a class="headerlink" href="#input-data" title="Permalink to this heading">#</a></h2>
-<p>Subsection text</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Unit</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Surface temperature</p></td>
+<td><p>-</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>Soil texture (clay fraction)</p></td>
+<td><p>-</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>Land cover type classification</p></td>
+<td><p>-</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>Vegetation single scattering albedo</p></td>
+<td><p>-</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>Surface roughness information</p></td>
+<td><p>-</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>Data flags</p></td>
+<td><p>-</p></td>
+<td><p>Identification of land, water, urban areas, permanent ice/snow and topographic effects.</p></td>
+</tr>
+</tbody>
+</table>
 </section>
 <section id="output-data">
 <h2>Output data<a class="headerlink" href="#output-data" title="Permalink to this heading">#</a></h2>
-<p>Subsection text</p>
-</section>
-<section id="auxiliary-data">
-<h2>Auxiliary data<a class="headerlink" href="#auxiliary-data" title="Permalink to this heading">#</a></h2>
-<p>Subsection text</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Unit</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Vegetatio_optical_depth</p></td>
+<td><p>-</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>Latitude</p></td>
+<td><p>degrees</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>Longitude</p></td>
+<td><p>degrees</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>Soil_Moisture</p></td>
+<td><p><span class="math notranslate nohighlight">\(m^3/m^3\)</span></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>Soil_Moisture_StdError</p></td>
+<td><p><span class="math notranslate nohighlight">\(m^3/m^3\)</span></p></td>
+<td><p>Error on the derived Soil moisture</p></td>
+</tr>
+<tr class="row-odd"><td><p>Quality flags</p></td>
+<td><p>-</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>Surface_Temperature</p></td>
+<td><p>-</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>Days</p></td>
+<td><p>-</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>UTC_time</p></td>
+<td><p>seconds -</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>EASE row index</p></td>
+<td><p>-</p></td>
+<td><p>Global 36-km EASE2 Grid 0-based row index EASE_column_index</p></td>
+</tr>
+<tr class="row-even"><td><p>EASE column index</p></td>
+<td><p>-</p></td>
+<td><p>Global 36-km EASE2 Grid 0-based column index EASE_column_index</p></td>
+</tr>
+<tr class="row-odd"><td><p>Single scattering albedo</p></td>
+<td><p>-</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>Soil roughness</p></td>
+<td><p>-</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>Clay fraction</p></td>
+<td><p>-</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
 </section>
 <section id="ancillary-data">
 <h2>Ancillary data<a class="headerlink" href="#ancillary-data" title="Permalink to this heading">#</a></h2>
-<p>Subsection text</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>ID</p></th>
+<th class="head"><p>Parameter</p></th>
+<th class="head"><p>Data Source</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>h Roughness Parameter (file)</p></td>
+<td><p>pre-computed from SMOS-IC</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>Permanent Ice</p></td>
+<td><p>MODIS</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>Mountainous Area [DEM]</p></td>
+<td><p>-</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>Land Cover Class</p></td>
+<td><p>MODIS IGBP</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>Soil Attributes (clay fraction)</p></td>
+<td><p>FAO [replaced in R17 2020 data release by SoilGrid250m available at <a class="reference external" href="https://openlandmap.org">https://openlandmap.org</a>]</p></td>
+</tr>
+</tbody>
+</table>
 </section>
 </section>
 
@@ -777,11 +897,6 @@ title="Print to PDF"
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#output-data">
    Output data
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#auxiliary-data">
-   Auxiliary data
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
