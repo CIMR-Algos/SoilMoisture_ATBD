@@ -157,7 +157,36 @@ SubSubsection Text
 | 16 | Barren                         | 0.02       | 0.00     | 0.12 |
 
 
+[MRD-854]
 
+A CIMR Hydrology Target mask shall be used for Level-2 data processing
+activities according to the following specification:
+The Hydrology Target Mask shall have a spatial resolution of ≤1 km.
+It shall include fractional water surfaces with a spatial resolution ≤ 1 x 1 km
+Inland water surfaces (lakes reservoirs, rivers, as well as wetlands) shall be
+identified in the database.
+Both permanent and transitory water surfaces shall be identified with seasonality
+information.
+The baseline data set shall include the Yamazaki et al. (2019) MERIT Hydro at
+~90m: Global Hydrography Datase available at http://hydro.iis.utokyo.
+ac.jp/~yamadai/MERIT_Hydro
+The baseline data set shall include The Global Lakes and Wetlands Database
+(Lernher and Doll, 2004) at 1 km data set that can provide complementary
+information on the water surfaces. A GLWD2 version should soon available at
+500m spatial resolution, with improved information. Auxiliary data (e.g., Digital
+elevation models) as required depending on the implementation of CIMR.
+Other aspects as required depending on the implementation of CIMR.
+
+Note 1: The CIMR Hydrology Target Mask specifies lake, reservoir, and wetland targets
+for the CIMR mission.
+Note 2: The mask considers large lakes that are greater than 5 km since Ka-band CIMR
+measurement footprint are <5 km.
+Note 3: The Hydrology Target Mask shall be re-evaluated and uploaded to the satellite up
+to 4 (TBC) times per year. This is necessary since river spatial extent and
+position may change seasonally.
+Note 4: Example maps form Yamazaki et al (2019), “MERIT Hydro river width (right) are
+shown below.
+Note 5: Monthly masks could be considered, with possible updates during the mission.
 
     |
 
