@@ -45,6 +45,8 @@ This relationship between soil moisture and soil dielectric constant (and conseq
 
 ### Retrieval Method
 
+Prior to implementing the soil moisture retrieval, a preliminary step is to perform a water body correction to the brightness temperature data for cases where a significant percentage of the grid cells contain open water. As it is well known, brightness temperature values notably decrease when the water fraction increases {cite:p}`Ulaby2014`, leading to an overestimation of the retrieved SM values {cite:p}`ye2015` and inducing artificial seasonal cycles of VOD {cite:p}`bousquet2021`. It is therefore important to correct the CIMR brightness temperatures for the presence of water, to the extent feasible, prior to using them as inputs to the Level-2 Soil Moisture retrieval. This correction needs to be performed at Level1-B using the CIMR Hydrology Target mask ([RD-1] MRD-854), before the optimal interpolation or re-gridding process. The hydrology target mask will include information from both permanent and transitory water surfaces that shall be identified with the surface water seasonality information provided by the CIMR Surface Water Fraction (SWF) product as well as ancillary information.  
+
 The procedure to acquire soil moisture (SM) and vegetation optical depth (VOD, also denoted as τ) requires the minimization of the cost function F, as shown in {eq}`cost_fun`.
 
 ```{math}
@@ -63,7 +65,14 @@ An initial constant value of $0.2 m^3/m^3$ is assumed for SM and $\sigma(SM)$, w
 
 ### CIMR Level-1b re-sampling approach
 
-Subsection Text
+The CIMR Level-2 Soil Moisture retrieval algorithm will provide two soil moisture products: the first based on the inversion of L-band only TBs at its native resolution (~60 km, Hydroclimatological), the second one based on the inversion of L-band at an enhanced spatial resolution (~10 to 25 km Hydrometeorological). The enhanced L-band targets a 15-km spatial resolution and is based on sharpening techniques that exploit the C-band and X-band channels (Zhang et al., in prep. 2023). Figure {numref}`resampling` illustrates the Level-1b resampling approach starting with a Backus-Gilbert or Scatterometer Image Reconstruction analysis applied at each frequency, then the application of the sharpening algorithm to combine 15 km C/X-bands and 60 km L-band to estimate equivalent 15 km L-band. The output would be a Level-1c product that is then used as input in the Level-2 Processor. Both Level-1c and Level-2 products are planned to be projected on an EASE grid with a kernel of 3 km (then multiples thereof), i.e. Ka/Ku-bands at 3 Km, C/X-bands at 9 km, L-band at 36km. The benefit of using swath-based projections should be evaluated with dedicated experiments. 
+
+```{figure} /images/Level1b_resampling.png
+--- 
+name: resampling
+---
+Conceptual flow of Level-1b resampling to exploit CIMR oversampling and nested spatial resolution and achieve global hydroclimatology and hydrometeorology soil moisture observational requirements of 60 and 15 km spatial resolution daily.
+```
 
 
 ### Algorithm Assumptions and Simplifications
@@ -123,9 +132,6 @@ In the output data, the retrieved parameters, soil moisture and vegetation, are 
 - Clay fraction
 
 
-
-
-
 The specific parameters and sources of these parameters are detailed in the Ancillary data section.
 
 <!--
@@ -156,7 +162,7 @@ SubSubsection Text
 | 15 | Snow and Ice                   | 0.11       | 0.00     | 0.10 |
 | 16 | Barren                         | 0.02       | 0.00     | 0.12 |
 
-
+<!--
 [MRD-854]
 
 A CIMR Hydrology Target mask shall be used for Level-2 data processing
@@ -189,7 +195,7 @@ shown below.
 Note 5: Monthly masks could be considered, with possible updates during the mission.
 
     |
-
+-->
 
 
 
