@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html lang="en">
+<html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
     <title>Abstract &#8212; CIMR DEVALGO ATBD Template</title>
   
@@ -43,7 +43,6 @@
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
@@ -100,7 +99,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="next" title="Applicable and reference documents" href="applicable_ref_docs.html" />
     <link rel="prev" title="CIMR L2 Soil Moisture ATBD" href="intro.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="docsearch:language" content="en">
+  <meta name="docsearch:language" content="None">
   </head>
   
   
@@ -658,8 +657,10 @@ title="Print to PDF"
             <article class="bd-article" role="main">
               
   <section class="tex2jax_ignore mathjax_ignore" id="abstract">
-<h1>Abstract<a class="headerlink" href="#abstract" title="Permalink to this heading">#</a></h1>
-<p>Here is the abstract text (change 03-03-2023)</p>
+<h1>Abstract<a class="headerlink" href="#abstract" title="Permalink to this headline">#</a></h1>
+<p>This Algorithm Theoretical Basis Document (ATBD) presents the theoretical basis for the Copernicus Imaging Microwave Radiometer (CIMR) soil moisture (SM) retrieval algorithm. In doing so, the forthcoming CIMR mission carries on the legacy of successful L-band missions such as SMOS, SMAP, and Aquarius.</p>
+<p>The proposed algorithm is based on the tau-omega model and the SMOS-IC algorithm for SMOS and the Dual Channel Algorithm for SMAP. It utilizes both H-polarized and V-polarized brightness temperature (TB) observations at the L-band frequency (~1.4 GHz) to estimate soil moisture.</p>
+<p>The aim is to disaggregate L-band using C/X bands at a higher spatial resolution, leading to two soil moisture products: the first is based on the inversion of L-band-only TBs at its native resolution (~60 km, Hydroclimatological), and the second involves the inversion of L-band at an enhanced spatial resolution (~10 to 25 km, Hydrometeorological). In addition to soil moisture, the algorithm also delivers a second product: the vegetation opacity, τ, derived from L, C, X and Ku bands. This parameter holds potential correlations with diverse vegetation attributes.</p>
 </section>
 
     <script type="text/x-thebe-config">

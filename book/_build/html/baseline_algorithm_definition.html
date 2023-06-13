@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html lang="en">
+<html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
     <title>Baseline Algorithm Definition &#8212; CIMR DEVALGO ATBD Template</title>
   
@@ -43,7 +43,6 @@
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
@@ -102,7 +101,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="next" title="Algorithm Input and Output Data Definition (IODD)" href="algorithm_input_output_data_definition.html" />
     <link rel="prev" title="Level-2 product definition" href="L2_product_definition.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="docsearch:language" content="en">
+  <meta name="docsearch:language" content="None">
   </head>
   
   
@@ -731,13 +730,13 @@ title="Print to PDF"
             <article class="bd-article" role="main">
               
   <section class="tex2jax_ignore mathjax_ignore" id="baseline-algorithm-definition">
-<h1>Baseline Algorithm Definition<a class="headerlink" href="#baseline-algorithm-definition" title="Permalink to this heading">#</a></h1>
+<h1>Baseline Algorithm Definition<a class="headerlink" href="#baseline-algorithm-definition" title="Permalink to this headline">#</a></h1>
 <p>Extensive research in the passive microwave soil moisture field has led to the development of numerous soil moisture retrievals that can be applied to CIMR TB data. The ESA’s SMOS mission currently operates an aperture synthesis L-band radiometer that produces TB data at various incidence angles for identical ground locations. The core SMOS retrieval algorithm utilizes the tau-omega model and takes advantage of SMOS’s ability to capture multiple incidence angles for soil moisture estimation. SMAP retrievals, on the other hand, are also based on the tau-omega model but employ the constant incidence angle TB data provided by the SMAP radiometer, an approach more similar to the forthcoming CIMR mission. Consequently, we propose a retrieval algorithm that incorporates elements from both the SMOS-IC and the SMAP multi-channel algorithm.</p>
 <p>A microwave radiometer’s primary function is to detect the inherent thermal radiation that originates from a surface. Under the Rayleigh-Jeans approximation, the intensity of the observed emission at microwave frequencies is directly proportional to the product of the surface’s temperature and emissivity, commonly referred to as the brightness temperature (TB).</p>
 <p>When the microwave sensor orbits the Earth, several factors contribute to the observed TB. These include the soil’s emitted energy (attenuated by overlying vegetation), the emission from vegetation itself, downwelling atmospheric emission and cosmic background emission (reflected by the surface and attenuated by vegetation), and upwelling atmospheric emission.</p>
 <p>In the case of L band frequencies, the atmosphere is virtually transparent, with an atmospheric transmissivity (τ_atm) of approximately 1. The cosmic background, or Tsky, is around 2.7 K. Additionally, atmospheric emission is minimal.</p>
 <section id="forward-model">
-<h2>Forward Model<a class="headerlink" href="#forward-model" title="Permalink to this heading">#</a></h2>
+<h2>Forward Model<a class="headerlink" href="#forward-model" title="Permalink to this headline">#</a></h2>
 <p>The retrieval of soil moisture from CIMR surface TB observations relies on a widely recognized approximation to the radiative transfer equation referred to as the tau-omega model, which, in this case, is referred to as the forward model. In tau-omega, a soil layer covered by vegetation attenuates the soil’s emission while contributing its own emission to the overall radiative flux. Given that scattering within vegetation is generally negligible at L band frequencies, the vegetation can be predominantly treated as an absorbing layer <span id="id1">[]</span>. Thus, TB can be expressed as follows:</p>
 <div class="math notranslate nohighlight" id="equation-tb-tauomega">
 <span class="eqno">(1)<a class="headerlink" href="#equation-tb-tauomega" title="Permalink to this equation">#</a></span>\[TB_p = T_s e_p exp{(-\tau_p \sec \theta)} + T_c (1 - \omega_p)[1 - \exp(-\tau_p \sec \theta)][1 + r_p \exp(-\tau_p \sec \theta)]\]</div>
@@ -754,7 +753,7 @@ title="Print to PDF"
 <p>This relationship between soil moisture and soil dielectric constant (and consequently microwave emissivity and brightness temperature) establishes the basis for passive remote sensing of soil moisture. With CIMR observations of TB and information on T_s and T_c, H_R, and ω_p from ancillary sources, soil moisture (SM) and as explained in the “Retrieval Method” section.</p>
 </section>
 <section id="retrieval-method">
-<h2>Retrieval Method<a class="headerlink" href="#retrieval-method" title="Permalink to this heading">#</a></h2>
+<h2>Retrieval Method<a class="headerlink" href="#retrieval-method" title="Permalink to this headline">#</a></h2>
 <p>The procedure to acquire soil moisture (SM) and vegetation optical depth (VOD, also denoted as τ) requires the minimization of the cost function F, as shown in <a class="reference internal" href="#equation-cost-fun">(4)</a>.</p>
 <div class="math notranslate nohighlight" id="equation-cost-fun">
 <span class="eqno">(4)<a class="headerlink" href="#equation-cost-fun" title="Permalink to this equation">#</a></span>\[F(SM, \tau) = \frac{(TB_p^{obs} - TB_p)^2}{\sigma(TB)^2} + \sum_{i=1}^2\frac{(P_{i}^{ini} - P_i)^2}{\sigma(P_i)^2}\]</div>
@@ -764,29 +763,29 @@ title="Print to PDF"
 <span class="eqno">(5)<a class="headerlink" href="#equation-sigma-tau" title="Permalink to this equation">#</a></span>\[\sigma(\tau_{NAD}) = \min(0.1 + 0.3 \cdot \tau_{NAD}, 0.3)\]</div>
 </section>
 <section id="cimr-level-1b-re-sampling-approach">
-<h2>CIMR Level-1b re-sampling approach<a class="headerlink" href="#cimr-level-1b-re-sampling-approach" title="Permalink to this heading">#</a></h2>
+<h2>CIMR Level-1b re-sampling approach<a class="headerlink" href="#cimr-level-1b-re-sampling-approach" title="Permalink to this headline">#</a></h2>
 <p>Subsection Text</p>
 </section>
 <section id="algorithm-assumptions-and-simplifications">
-<h2>Algorithm Assumptions and Simplifications<a class="headerlink" href="#algorithm-assumptions-and-simplifications" title="Permalink to this heading">#</a></h2>
+<h2>Algorithm Assumptions and Simplifications<a class="headerlink" href="#algorithm-assumptions-and-simplifications" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>The thermal equilibrium</p></li>
 <li><p>Q and N parameters of the soil roughness model</p></li>
 </ul>
 </section>
 <section id="level-2-end-to-end-algorithm-functional-flow-diagram">
-<h2>Level-2 end to end algorithm functional flow diagram<a class="headerlink" href="#level-2-end-to-end-algorithm-functional-flow-diagram" title="Permalink to this heading">#</a></h2>
+<h2>Level-2 end to end algorithm functional flow diagram<a class="headerlink" href="#level-2-end-to-end-algorithm-functional-flow-diagram" title="Permalink to this headline">#</a></h2>
 <p>Subsection Text</p>
 </section>
 <section id="functional-description-of-each-algorithm-step">
-<h2>Functional description of each Algorithm step<a class="headerlink" href="#functional-description-of-each-algorithm-step" title="Permalink to this heading">#</a></h2>
+<h2>Functional description of each Algorithm step<a class="headerlink" href="#functional-description-of-each-algorithm-step" title="Permalink to this headline">#</a></h2>
 <p>Subsection Text</p>
 <section id="mathematical-description">
-<h3>Mathematical description<a class="headerlink" href="#mathematical-description" title="Permalink to this heading">#</a></h3>
+<h3>Mathematical description<a class="headerlink" href="#mathematical-description" title="Permalink to this headline">#</a></h3>
 <p>SubSubsection Text</p>
 </section>
 <section id="input-data">
-<h3>Input data<a class="headerlink" href="#input-data" title="Permalink to this heading">#</a></h3>
+<h3>Input data<a class="headerlink" href="#input-data" title="Permalink to this headline">#</a></h3>
 <p>The processing algorithm primarily relies on the CIMR TB product that is calibrated, geolocated, and adjusted to the EASE2 grid. Previously, the TB data undergoes several corrections, such as atmospheric effects, Faraday rotation and RFI effects.</p>
 <p>Besides TB measurements, the CIMR retrieval algorithm uses supplementary datasets for accurate soil moisture extraction. The required data encompasses:</p>
 <ul class="simple">
@@ -801,7 +800,7 @@ title="Print to PDF"
 <p>The specific parameters and sources of these parameters are detailed in the Ancillary data section.</p>
 </section>
 <section id="output-data">
-<h3>Output data<a class="headerlink" href="#output-data" title="Permalink to this heading">#</a></h3>
+<h3>Output data<a class="headerlink" href="#output-data" title="Permalink to this headline">#</a></h3>
 <p>In the output data, the retrieved parameters, soil moisture and vegetation, are included along with their associated errors. Additionally, this information is supplemented with the acquisition time, location (latitude, longitude), row and column indices in the EASE V2 grid, flags indicating data quality, and ancillary data such as single scattering albedo, soil roughness, clay fraction, and land cover class percentages per pixel.</p>
 <ul class="simple">
 <li><p>Vegetation_Optical depth</p></li>
@@ -827,8 +826,8 @@ SubSubsection Text
 -->
 </section>
 <section id="ancillary-data">
-<h3>Ancillary data<a class="headerlink" href="#ancillary-data" title="Permalink to this heading">#</a></h3>
-<table class="table">
+<h3>Ancillary data<a class="headerlink" href="#ancillary-data" title="Permalink to this headline">#</a></h3>
+<table class="colwidths-auto table">
 <thead>
 <tr class="row-odd"><th class="head"><p>ID</p></th>
 <th class="head"><p>MODIS IGBP land classification</p></th>
@@ -947,7 +946,7 @@ SubSubsection Text
 </div>
 </section>
 <section id="validation-process">
-<h3>Validation process<a class="headerlink" href="#validation-process" title="Permalink to this heading">#</a></h3>
+<h3>Validation process<a class="headerlink" href="#validation-process" title="Permalink to this headline">#</a></h3>
 <p>SubSubsection Text</p>
 </section>
 </section>
