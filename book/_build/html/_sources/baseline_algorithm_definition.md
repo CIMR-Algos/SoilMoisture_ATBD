@@ -89,9 +89,11 @@ Subsection Text
 
 Subsection Text
 
+<!---
 ##### Mathematical description
 
 SubSubsection Text
+-->
 
 ##### Input data
 
