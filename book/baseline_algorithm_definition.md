@@ -83,7 +83,12 @@ Conceptual flow of Level-1b resampling to exploit CIMR oversampling and nested s
 
 ### Level-2 end to end algorithm functional flow diagram
 
-Subsection Text
+```{figure} /images/flow_diagram_SM.png
+--- 
+name: flow_diagram_SM
+---
+Functional flow diagram of Level-2 Soil moisture and VOD retrieval algorithm.
+```
 
 ### Functional description of each Algorithm step
 
