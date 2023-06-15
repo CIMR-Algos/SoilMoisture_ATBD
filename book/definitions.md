@@ -16,7 +16,7 @@ Equal Area Scalable Earth v2
     Equal area projection grid definition based on a Lambert Azimuthal projection and a WGS84 datum. Defined in {cite}`brodzik/etal:2012`.
 
 Dual Channel Algorithm
-    Algorithm used in SMAP to retrieve simultaneously two parameters (soil moisture and vegetation optical depth)
+    Algorithm used in SMAP to retrieve simultaneously two parameters (soil moisture and vegetation optical depth).
 
 International Geosphere-Biosphere Programme
     The International Geosphere-Biosphere Programme land cover classification defines ecosystems surface classifications based on vegetation characteristics and land use.
@@ -25,8 +25,8 @@ Multi-Temporal Dual Channel Algorithm
     The Multi-Temporal Dual Channel Algorithm (MT-DCA) is an evolution of DCA that uses information from multiple SMAP overpasses to improve retrieval performance.
 
 Soil Moisture
-
-
+    Soil moisture is defined as the water held in the spaces between soil particles, and it is typically expressed as a ratio, either by volume-to-volume ratio (m³/m³) or by weight.
+    
 Soil Moisture Active Passive
     The SMAP (Soil Moisture Active Passive) mission is a NASA satellite mission launched in 2015 that uses both active and passive microwave sensors to measure soil moisture.
 
@@ -34,11 +34,7 @@ Soil Moisture and Ocean Salinity
     The SMOS (Soil Moisture and Ocean Salinity) mission, launched in 2009 by the European Space Agency, is dedicated to making global observations of soil moisture over land and salinity over oceans using a passive microwave sensor.
 
 Vegetation Optical Depth
-    Vegetation optical depth (VOD) is a parameter that characterizes the extinction effects due to vegetation, including attenuation and scattering, on microwave radiations propagating through the vegetation canopy
-1
-2
-. It is related almost linearly to the vegetation water content and indirectly to vegetation water status and biomass
-
+    Vegetation optical depth (VOD) is a parameter that characterizes the extinction effects due to vegetation, including attenuation and scattering, on microwave radiations propagating through the vegetation canopy. It is related almost linearly to the vegetation water content and indirectly to vegetation water status and biomass
 VWC
   Vegetation Water Content
    

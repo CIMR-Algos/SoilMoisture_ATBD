@@ -1,7 +1,6 @@
 # Acronyms
 
 ```{glossary}
-
 AMSR-E
   Advanced Microwave Scanning Radiometer-EOS
 
@@ -19,7 +18,7 @@ EASE
 
 ESA
   European Space Agency
-
+  
 IGBP
   International Geosphere-Biosphere Programme
 
@@ -31,7 +30,7 @@ MODIS
 
 MT-DCA
   Multi-Temporal Dual Channel Algorithm
-  
+
 NASA
   National Aeronautics and Space Administration
 
@@ -55,11 +54,10 @@ TB
 
 UTC
   Coordinated Universal Time
-
+  
 VOD
   Vegetation Optical Depth
 
 VWC
   Vegetation Water Content
-
 ```
