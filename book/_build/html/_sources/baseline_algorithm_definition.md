@@ -204,6 +204,17 @@ Note 5: Monthly masks could be considered, with possible updates during the miss
     |
 -->
 
+| ID | Parameter                   | Data Source                                                                                                      |
+|----|-----------------------------|------------------------------------------------------------------------------------------------------------------|
+| 1  | h Roughness Parameter (file)| pre-computed from SMOS-IC                                                                                        |
+| 2  | Permanent Ice              | MODIS                                                                                                            |
+| 3  | Mountainous Area [DEM]     | -                                                                                                                |
+| 4  | Land Cover Class           | MODIS IGBP                                                                                                       |
+| 5  | Soil Attributes (clay fraction) | FAO [replaced in R17 2020 data release by SoilGrid250m available at https://openlandmap.org]      
+
+| Single scattering albedo  | Measure of surface reflectance                             | -         |                                                         |
+| Soil roughness            | Indicator of the irregularity of the soil surface          | -         |                                                         |
+| Clay fraction             | Portion of the soil composed of clay particles             | -         |   
 
 
 ##### Validation process

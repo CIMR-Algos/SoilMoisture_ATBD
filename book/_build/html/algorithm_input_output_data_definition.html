@@ -665,34 +665,18 @@ title="Print to PDF"
 <table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Parameter</p></th>
-<th class="head"><p>Unit</p></th>
 <th class="head"><p>Description</p></th>
+<th class="head"><p>Shape/Amount</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>Surface temperature</p></td>
-<td><p>-</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p>L1b TB</p></td>
+<td><p>L1b Brightness Temperature at L-band (both H and V polarization)</p></td>
+<td><p><span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span></p></td>
 </tr>
-<tr class="row-odd"><td><p>Soil texture (clay fraction)</p></td>
-<td><p>-</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p>Land cover type classification</p></td>
-<td><p>-</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p>Vegetation single scattering albedo</p></td>
-<td><p>-</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p>Surface roughness information</p></td>
-<td><p>-</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p>Data flags</p></td>
-<td><p>-</p></td>
-<td><p>Identification of land, water, urban areas, permanent ice/snow and topographic effects.</p></td>
+<tr class="row-odd"><td><p>TB_err</p></td>
+<td><p>Brightness Temperature error</p></td>
+<td><p><span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span></p></td>
 </tr>
 </tbody>
 </table>
@@ -702,66 +686,66 @@ title="Print to PDF"
 <table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Parameter</p></th>
-<th class="head"><p>Unit</p></th>
 <th class="head"><p>Description</p></th>
+<th class="head"><p>Units</p></th>
+<th class="head"><p>Dimensions</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>Vegetatio_optical_depth</p></td>
-<td><p>-</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p>lon</p></td>
+<td><p>Longitude. range: <span class="math notranslate nohighlight">\([0^{\circ}, 360^{\circ}]\)</span></p></td>
+<td><p><em>degrees East</em></p></td>
+<td><p><span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span></p></td>
 </tr>
-<tr class="row-odd"><td><p>Latitude</p></td>
-<td><p>degrees</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p>lat</p></td>
+<td><p>Latitude. range: <span class="math notranslate nohighlight">\([90^{\circ}S, 90^{\circ}N]\)</span></p></td>
+<td><p><em>degrees North</em></p></td>
+<td><p><span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span></p></td>
 </tr>
-<tr class="row-even"><td><p>Longitude</p></td>
-<td><p>degrees</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p>time</p></td>
+<td><p>seconds of observation since YYYY-MM-DD 00:00:00 UTC.</p></td>
+<td><p><em>seconds</em></p></td>
+<td><p><span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span></p></td>
 </tr>
-<tr class="row-odd"><td><p>Soil_Moisture</p></td>
+<tr class="row-odd"><td><p>SM</p></td>
+<td><p>Soil Moisture</p></td>
 <td><p><span class="math notranslate nohighlight">\(m^3/m^3\)</span></p></td>
-<td><p></p></td>
+<td><p><span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span></p></td>
 </tr>
-<tr class="row-even"><td><p>Soil_Moisture_StdError</p></td>
+<tr class="row-even"><td><p>SM_err</p></td>
+<td><p>Uncertainty associated with the soil moisture measurement</p></td>
 <td><p><span class="math notranslate nohighlight">\(m^3/m^3\)</span></p></td>
-<td><p>Error on the derived Soil moisture</p></td>
+<td><p><span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span></p></td>
 </tr>
-<tr class="row-odd"><td><p>Quality flags</p></td>
+<tr class="row-odd"><td><p>VOD</p></td>
+<td><p>Vegetation Optical Depth</p></td>
 <td><p>-</p></td>
-<td><p></p></td>
+<td><p><span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span></p></td>
 </tr>
-<tr class="row-even"><td><p>Surface_Temperature</p></td>
+<tr class="row-even"><td><p>VOD_err</p></td>
+<td><p>Uncertainty associated with the vegetation optical depth measurement</p></td>
 <td><p>-</p></td>
-<td><p></p></td>
+<td><p><span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span></p></td>
 </tr>
-<tr class="row-odd"><td><p>Days</p></td>
+<tr class="row-odd"><td><p>albedo</p></td>
+<td><p>Vegetation single scattering albedo</p></td>
 <td><p>-</p></td>
-<td><p></p></td>
+<td><p><span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span></p></td>
 </tr>
-<tr class="row-even"><td><p>UTC_time</p></td>
-<td><p>seconds -</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p>EASE row index</p></td>
+<tr class="row-even"><td><p>EASE row index</p></td>
+<td><p>Row index in the global EASE2 grid</p></td>
 <td><p>-</p></td>
-<td><p>Global 36-km EASE2 Grid 0-based row index EASE_column_index</p></td>
+<td><p><span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span></p></td>
 </tr>
-<tr class="row-even"><td><p>EASE column index</p></td>
+<tr class="row-odd"><td><p>EASE column index</p></td>
+<td><p>Column index in the global EASE2 grid</p></td>
 <td><p>-</p></td>
-<td><p>Global 36-km EASE2 Grid 0-based column index EASE_column_index</p></td>
+<td><p><span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span></p></td>
 </tr>
-<tr class="row-odd"><td><p>Single scattering albedo</p></td>
-<td><p>-</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p>Soil roughness</p></td>
-<td><p>-</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p>Clay fraction</p></td>
-<td><p>-</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p>status_flags</p></td>
+<td><p>Identification of urban and frozen areas, permanent ice/snow and topographic effects.</p></td>
+<td><p><em>4-bits flag</em></p></td>
+<td><p><span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span></p></td>
 </tr>
 </tbody>
 </table>
@@ -770,31 +754,35 @@ title="Print to PDF"
 <h2>Ancillary data<a class="headerlink" href="#ancillary-data" title="Permalink to this heading">#</a></h2>
 <table class="table">
 <thead>
-<tr class="row-odd"><th class="head"><p>ID</p></th>
-<th class="head"><p>Parameter</p></th>
-<th class="head"><p>Data Source</p></th>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Shape/Amount</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>1</p></td>
-<td><p>h Roughness Parameter (file)</p></td>
-<td><p>pre-computed from SMOS-IC</p></td>
+<tr class="row-even"><td><p>LST</p></td>
+<td><p>Land Surface Temperature  (from L1b TB CIMR Ka band)</p></td>
+<td><p><span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span></p></td>
 </tr>
-<tr class="row-odd"><td><p>2</p></td>
-<td><p>Permanent Ice</p></td>
-<td><p>MODIS</p></td>
+<tr class="row-odd"><td><p>soil_texture</p></td>
+<td><p>Clay fraction (from FAO)</p></td>
+<td><p><span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span></p></td>
 </tr>
-<tr class="row-even"><td><p>3</p></td>
-<td><p>Mountainous Area [DEM]</p></td>
-<td><p>-</p></td>
+<tr class="row-even"><td><p>LCC</p></td>
+<td><p>IGBP Land Cover type Classification (from MODIS)</p></td>
+<td><p><span class="math notranslate nohighlight">\([17, xdim_{grid},ydim_{grid}]\)</span></p></td>
 </tr>
-<tr class="row-odd"><td><p>4</p></td>
-<td><p>Land Cover Class</p></td>
-<td><p>MODIS IGBP</p></td>
+<tr class="row-odd"><td><p>albedo</p></td>
+<td><p>Vegetation single scattering albedo (from SMOS-IC)</p></td>
+<td><p><span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span></p></td>
 </tr>
-<tr class="row-even"><td><p>5</p></td>
-<td><p>Soil Attributes (clay fraction)</p></td>
-<td><p>FAO [replaced in R17 2020 data release by SoilGrid250m available at <a class="reference external" href="https://openlandmap.org">https://openlandmap.org</a>]</p></td>
+<tr class="row-even"><td><p>H</p></td>
+<td><p>Surface roughness information (from SMOS-IC)</p></td>
+<td><p><span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>DEM</p></td>
+<td><p>Digital Elevation Model</p></td>
+<td><p><span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span></p></td>
 </tr>
 </tbody>
 </table>
