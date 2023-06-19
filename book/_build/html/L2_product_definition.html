@@ -641,7 +641,7 @@ title="Print to PDF"
 </thead>
 <tbody>
 <tr class="row-even"><td><p>lon</p></td>
-<td><p>Longitude. range: <span class="math notranslate nohighlight">\([0^{\circ}, 360^{\circ}]\)</span></p></td>
+<td><p>Longitude. range: [0<span class="math notranslate nohighlight">\(^{\circ}\)</span>, 360<span class="math notranslate nohighlight">\(^{\circ}\)</span>]</p></td>
 <td><p><em>degrees East</em></p></td>
 <td><p><span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span></p></td>
 </tr>
@@ -655,13 +655,23 @@ title="Print to PDF"
 <td><p><em>seconds</em></p></td>
 <td><p><span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span></p></td>
 </tr>
+<tr class="row-odd"><td><p>TB_L</p></td>
+<td><p>L1b Brightness Temperature at L-band</p></td>
+<td><p>K</p></td>
+<td><p><span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>TB_L_E</p></td>
+<td><p>L1b Enhanced Brightness Temperature at L-band</p></td>
+<td><p>K</p></td>
+<td><p><span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span></p></td>
+</tr>
 <tr class="row-odd"><td><p>SM</p></td>
 <td><p>Soil Moisture</p></td>
 <td><p><span class="math notranslate nohighlight">\(m^3/m^3\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span></p></td>
 </tr>
-<tr class="row-even"><td><p>SM_err</p></td>
-<td><p>Uncertainty associated with the soil moisture measurement</p></td>
+<tr class="row-even"><td><p>SM_E</p></td>
+<td><p>Enhanced Soil Moisture</p></td>
 <td><p><span class="math notranslate nohighlight">\(m^3/m^3\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span></p></td>
 </tr>
@@ -670,8 +680,8 @@ title="Print to PDF"
 <td><p>-</p></td>
 <td><p><span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span></p></td>
 </tr>
-<tr class="row-even"><td><p>VOD_err</p></td>
-<td><p>Uncertainty associated with the vegetation optical depth measurement</p></td>
+<tr class="row-even"><td><p>VOD_E</p></td>
+<td><p>Enhanced Vegetation Optical Depth</p></td>
 <td><p>-</p></td>
 <td><p><span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span></p></td>
 </tr>
@@ -690,9 +700,24 @@ title="Print to PDF"
 <td><p>-</p></td>
 <td><p><span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span></p></td>
 </tr>
-<tr class="row-even"><td><p>status_flags</p></td>
-<td><p>Identification of urban and frozen areas, permanent ice/snow and topographic effects.</p></td>
-<td><p><em>4-bits flag</em></p></td>
+<tr class="row-even"><td><p>TB_RMSE</p></td>
+<td><p>Root Mean Squared Error between measured TB and modeled TB</p></td>
+<td><p>K</p></td>
+<td><p><span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>TB_E_RMSE</p></td>
+<td><p>Root Mean Squared Error between enhanced TB and modeled TB</p></td>
+<td><p>K</p></td>
+<td><p><span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>scene_flags</p></td>
+<td><p>RFI, proximity to water body, urban, ice/snow, frozen soil, precipitation, medium and strong topographic effects.</p></td>
+<td><p><em>8-bits flag</em></p></td>
+<td><p><span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>status_flag</p></td>
+<td><p>Product quality flag</p></td>
+<td><p>n/a</p></td>
 <td><p><span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span></p></td>
 </tr>
 </tbody>

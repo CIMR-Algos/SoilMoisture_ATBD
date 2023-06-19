@@ -100,7 +100,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Algorithm Input and Output Data Definition (IODD)" href="algorithm_input_output_data_definition.html" />
-    <link rel="prev" title="Level-2 product definition (ongoing)" href="L2_product_definition.html" />
+    <link rel="prev" title="Level-2 product definition" href="L2_product_definition.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="docsearch:language" content="en">
   </head>
@@ -665,6 +665,16 @@ title="Print to PDF"
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pre-processing-of-input-tb">
+     Pre-processing of input TB
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#analyze-surface-quality-and-surface-conditions">
+     Analyze surface quality and surface conditions
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#input-data">
      Input data
     </a>
@@ -757,15 +767,26 @@ title="Print to PDF"
 </section>
 <section id="functional-description-of-each-algorithm-step">
 <h2>Functional description of each Algorithm step<a class="headerlink" href="#functional-description-of-each-algorithm-step" title="Permalink to this heading">#</a></h2>
-<p>Subsection Text</p>
+<section id="pre-processing-of-input-tb">
+<h3>Pre-processing of input TB<a class="headerlink" href="#pre-processing-of-input-tb" title="Permalink to this heading">#</a></h3>
+<p>The processing algorithm primarily relies on the CIMR L1B TB product that is calibrated, geolocated and undergoes several corrections, such as atmospheric effects, Faraday rotation and RFI effects. (l1_b)
+Merge fore- and aft-look TB</p>
+<p>Half orbit product (morning/afternoon).
+[Apply water TB correction]
+Optimal interpolation of L-band
+L-band sharpening, TB_L_E</p>
+</section>
+<section id="analyze-surface-quality-and-surface-conditions">
+<h3>Analyze surface quality and surface conditions<a class="headerlink" href="#analyze-surface-quality-and-surface-conditions" title="Permalink to this heading">#</a></h3>
+<p>Ancillary data will be employed to help to determine whether masks are in effect for strong topography, urban, snow/ice, frozen soil.</p>
 <!---
 ##### Mathematical description
 
 SubSubsection Text
 -->
+</section>
 <section id="input-data">
 <h3>Input data<a class="headerlink" href="#input-data" title="Permalink to this heading">#</a></h3>
-<p>The processing algorithm primarily relies on the CIMR TB product that is calibrated, geolocated, and adjusted to the EASE2 grid. Previously, the TB data undergoes several corrections, such as atmospheric effects, Faraday rotation and RFI effects.</p>
 <p>Besides TB measurements, the CIMR retrieval algorithm uses supplementary datasets for accurate soil moisture extraction. The required data encompasses:</p>
 <ul class="simple">
 <li><p>Surface temperature</p></li>
@@ -773,7 +794,6 @@ SubSubsection Text
 <li><p>Land cover type classification</p></li>
 <li><p>Vegetation single scattering albedo</p></li>
 <li><p>Surface roughness information</p></li>
-<li><p>Data flags for identification of land, water, urban areas, permanent ice/snow, and topographic effects</p></li>
 </ul>
 <p>The surface temperature is the soil/canopy temperature obtained from the Ka band using the formulation of Holmes that relies on the Ka band <span id="id5">[<a class="reference internal" href="references.html#id26" title="T. R. H. Holmes, R. A. M. De Jeu, M. Owe, and A. J. Dolman. Land surface temperature from ka band (37 ghz) passive microwave observations. J. Geophys. Res. Atmos., 2009.">Holmes <em>et al.</em>, 2009</a>]</span>.</p>
 <p>The specific parameters and sources of these parameters are detailed in the Ancillary data section.</p>
@@ -797,6 +817,7 @@ SubSubsection Text
 <li><p>Soil roughness</p></li>
 <li><p>Clay fraction</p></li>
 </ul>
+<p>Data flags for identification of land, water, urban areas, permanent ice/snow, and topographic effects</p>
 <p>The specific parameters and sources of these parameters are detailed in the Ancillary data section.</p>
 <!--
 ##### Auxiliary data
@@ -1027,7 +1048,7 @@ Note 5: Monthly masks could be considered, with possible updates during the miss
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
           <p class="prev-next-subtitle">previous</p>
-          <p class="prev-next-title">Level-2 product definition (ongoing)</p>
+          <p class="prev-next-title">Level-2 product definition</p>
       </div>
   </a>
   <a class='right-next' id="next-link" href="algorithm_input_output_data_definition.html" title="next page">
@@ -1083,6 +1104,16 @@ Note 5: Monthly masks could be considered, with possible updates during the miss
    Functional description of each Algorithm step
   </a>
   <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pre-processing-of-input-tb">
+     Pre-processing of input TB
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#analyze-surface-quality-and-surface-conditions">
+     Analyze surface quality and surface conditions
+    </a>
+   </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#input-data">
      Input data

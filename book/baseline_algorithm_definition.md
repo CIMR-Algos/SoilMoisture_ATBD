@@ -20,6 +20,12 @@ TB_p = T_s e_p exp{(-\tau_p \sec \theta)} + T_c (1 - \omega_p)[1 - \exp(-\tau_p 
 
 Where the subscript p refers to polarization (V or H), Ts denotes the soil's effective temperature, Tc stands for the canopy temperature, 𝜏_p represents the nadir vegetation opacity, 𝜔_p corresponds to the vegetation single scattering albedo, and rp is the soil reflectivity of a rough surface. The reflectivity is connected to the emissivity (ep) through the relation ep = (1 - rp). 
 
+
+EFFECTIVE ALBEDO !!!
+https://www.sciencedirect.com/science/article/pii/S0034425712004099
+
+
+
 According to Beer's law, the overlying canopy layer's transmissivity or vegetation attenuation factor , γ, is given by γ = exp(-𝜏_p sec 𝜃). Equation {eq}`TB-tauomega` assumes that vegetation multiple scattering and reflection at the vegetation-air interface are negligible. 
 
 Surface roughness is modeled as r_p  = r*_p exp (-H_R), where H_R parameterizes the intensity of the roughness effects, r*_p stands for the reflectivity of a plane surface. Nadir vegetation opacity is related to the total vegetation water content (VWC, in kg/m2) by 𝜏_p = bp·VWC, with the coefficient bp dependent on vegetation type and microwave frequency (and polarization) {cite:p}Van De Griend2004.
@@ -80,6 +86,10 @@ Conceptual flow of Level-1b resampling to exploit CIMR oversampling and nested s
 - The thermal equilibrium
 
 - Q and N parameters of the soil roughness model
+- Static albedo and roughness
+- evaluating the use in SMOS-IC of a first order modelling approach (2-Stream) (https://www.mdpi.com/2072-4292/10/12/1868) instead of the zero-order Tau-Omega model (Li et al., 2020a). 0th order RTM. Multi scattering.
+  (https://www.sciencedirect.com/science/article/pii/S0034425718304760?via%3Dihub9).
+
 
 ### Level-2 end to end algorithm functional flow diagram
 
@@ -92,7 +102,22 @@ Functional flow diagram of Level-2 Soil moisture and VOD retrieval algorithm.
 
 ### Functional description of each Algorithm step
 
-Subsection Text
+##### Pre-processing of input TB
+
+The processing algorithm primarily relies on the CIMR L1B TB product that is calibrated, geolocated and undergoes several corrections, such as atmospheric effects, Faraday rotation and RFI effects. (l1_b)
+Merge fore- and aft-look TB
+
+
+Half orbit product (morning/afternoon).
+[Apply water TB correction]
+Optimal interpolation of L-band
+L-band sharpening, TB_L_E
+
+##### Analyze surface quality and surface conditions
+
+
+Ancillary data will be employed to help to determine whether masks are in effect for strong topography, urban, snow/ice, frozen soil. 
+
 
 <!---
 ##### Mathematical description
@@ -100,9 +125,10 @@ Subsection Text
 SubSubsection Text
 -->
 
+
 ##### Input data
 
-The processing algorithm primarily relies on the CIMR TB product that is calibrated, geolocated, and adjusted to the EASE2 grid. Previously, the TB data undergoes several corrections, such as atmospheric effects, Faraday rotation and RFI effects.
+
 
 Besides TB measurements, the CIMR retrieval algorithm uses supplementary datasets for accurate soil moisture extraction. The required data encompasses:
 
@@ -111,7 +137,7 @@ Besides TB measurements, the CIMR retrieval algorithm uses supplementary dataset
 - Land cover type classification
 - Vegetation single scattering albedo
 - Surface roughness information
-- Data flags for identification of land, water, urban areas, permanent ice/snow, and topographic effects
+
 
 
 The surface temperature is the soil/canopy temperature obtained from the Ka band using the formulation of Holmes that relies on the Ka band {cite:p}`holmes2009`. 
@@ -138,6 +164,8 @@ In the output data, the retrieved parameters, soil moisture and vegetation, are 
 - Soil roughness
 - Clay fraction
 
+Data flags for identification of land, water, urban areas, permanent ice/snow, and topographic effects
+
 
 The specific parameters and sources of these parameters are detailed in the Ancillary data section.
 
@@ -148,6 +176,34 @@ SubSubsection Text
 -->
 
 ##### Ancillary data
+
+
+| Parameter                               | Description                                         | Shape/Amount              |
+|-----------------------------------------|-----------------------------------------------------|---------------------------|
+| CIMR_SWF                     | CIMR Surface Water Fraction   |  $[xdim_{grid},ydim_{grid}]$ 
+| CIMR_LST                     | CIMR Land Surface Temperature  (from L1b TB CIMR Ka band)  |  $[xdim_{grid},ydim_{grid}]$   |  
+| LST                     | Land Surface Temperature  (from ECMWF)  |  $[xdim_{grid},ydim_{grid}]$   | 
+| soil_texture            | Clay fraction (from FAO)     |     $[xdim_{grid},ydim_{grid}]$ |
+| LCC          | IGBP Land Cover type Classification (from MODIS) |   $[17, xdim_{grid},ydim_{grid}]$ |
+| albedo     | Vegetation single scattering albedo (from SMOS-IC)  |         $[xdim_{grid},ydim_{grid}]$ |
+| H           | Surface roughness information (from SMOS-IC)   |    $[xdim_{grid},ydim_{grid}]$ |
+| DEM                  | Digital Elevation Model     | $[xdim_{grid},ydim_{grid}]$ |
+| hydrology_mask                     | Hydrology Target mask ([RD-1, MRD-854]) |  $[xdim_{grid},ydim_{grid}]$   |
+
+
+| ID | Parameter                   | Data Source                                                                                                      |
+|----|-----------------------------|------------------------------------------------------------------------------------------------------------------|
+| 1  | h Roughness Parameter (file)| pre-computed from SMOS-IC                                                                                        |
+| 2  | Permanent Ice              | MODIS                                                                                                            |
+| 3  | Mountainous Area [DEM]     | -                                                                                                                |
+| 4  | Land Cover Class           | MODIS IGBP                                                                                                       |
+| 5  | Soil Attributes (clay fraction) | FAO [replaced in R17 2020 data release by SoilGrid250m available at https://openlandmap.org]      
+
+| Single scattering albedo  | Measure of surface reflectance                             | -         |                                                         |
+| Soil roughness            | Indicator of the irregularity of the soil surface          | -         |                                                         |
+| Clay fraction             | Portion of the soil composed of clay particles             | 
+
+
 
 | ID | MODIS IGBP land classification | SMAP MTDCA | SMAP DCA | CIMR |
 |----|--------------------------------|------------|----------|------|
@@ -204,17 +260,7 @@ Note 5: Monthly masks could be considered, with possible updates during the miss
     |
 -->
 
-| ID | Parameter                   | Data Source                                                                                                      |
-|----|-----------------------------|------------------------------------------------------------------------------------------------------------------|
-| 1  | h Roughness Parameter (file)| pre-computed from SMOS-IC                                                                                        |
-| 2  | Permanent Ice              | MODIS                                                                                                            |
-| 3  | Mountainous Area [DEM]     | -                                                                                                                |
-| 4  | Land Cover Class           | MODIS IGBP                                                                                                       |
-| 5  | Soil Attributes (clay fraction) | FAO [replaced in R17 2020 data release by SoilGrid250m available at https://openlandmap.org]      
-
-| Single scattering albedo  | Measure of surface reflectance                             | -         |                                                         |
-| Soil roughness            | Indicator of the irregularity of the soil surface          | -         |                                                         |
-| Clay fraction             | Portion of the soil composed of clay particles             | -         |   
+-         |   
 
 
 ##### Validation process

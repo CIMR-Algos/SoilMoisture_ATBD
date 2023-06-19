@@ -92,7 +92,22 @@ Functional flow diagram of Level-2 Soil moisture and VOD retrieval algorithm.
 
 ### Functional description of each Algorithm step
 
-Subsection Text
+##### Pre-processing of input TB
+
+The processing algorithm primarily relies on the CIMR L1B TB product that is calibrated, geolocated and undergoes several corrections, such as atmospheric effects, Faraday rotation and RFI effects. (l1_b)
+Merge fore- and aft-look TB
+
+
+Half orbit product (morning/afternoon).
+[Apply water TB correction]
+Optimal interpolation of L-band
+L-band sharpening, TB_L_E
+
+##### Analyze surface quality and surface conditions
+
+
+Ancillary data will be employed to help to determine whether masks are in effect for strong topography, urban, snow/ice, frozen soil. 
+
 
 <!---
 ##### Mathematical description
@@ -100,9 +115,10 @@ Subsection Text
 SubSubsection Text
 -->
 
+
 ##### Input data
 
-The processing algorithm primarily relies on the CIMR TB product that is calibrated, geolocated, and adjusted to the EASE2 grid. Previously, the TB data undergoes several corrections, such as atmospheric effects, Faraday rotation and RFI effects.
+
 
 Besides TB measurements, the CIMR retrieval algorithm uses supplementary datasets for accurate soil moisture extraction. The required data encompasses:
 
@@ -111,7 +127,7 @@ Besides TB measurements, the CIMR retrieval algorithm uses supplementary dataset
 - Land cover type classification
 - Vegetation single scattering albedo
 - Surface roughness information
-- Data flags for identification of land, water, urban areas, permanent ice/snow, and topographic effects
+
 
 
 The surface temperature is the soil/canopy temperature obtained from the Ka band using the formulation of Holmes that relies on the Ka band {cite:p}`holmes2009`. 
@@ -137,6 +153,8 @@ In the output data, the retrieved parameters, soil moisture and vegetation, are 
 - Single scattering albedo
 - Soil roughness
 - Clay fraction
+
+Data flags for identification of land, water, urban areas, permanent ice/snow, and topographic effects
 
 
 The specific parameters and sources of these parameters are detailed in the Ancillary data section.
