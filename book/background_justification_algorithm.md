@@ -42,7 +42,7 @@ In this section, we justify the selection of our proposed algorithm, which is fo
 --- 
 name: TBsens
 ---
-Sensitivity of TB to different factors across CIMR bands
+Sensitivity of TB to different factors across CIMR bands (adapted from {cite:p}`Kerr1996`)
 ```
 
 It is important to note that at L-band, another parameter of interest, 𝜏, can be retrieved. 𝜏 quantifies the attenuation of L-band microwave radiation by the vegetation canopy. While vegetation is typically studied using optical or infrared frequencies, the longer wavelengths of L-band sensors allow radiation to penetrate the canopy more effectively. As a result, 𝜏 can be linked to a variety of vegetation attributes, such as forest height, vegetation structure, water content, sap flow, and leaf fall. Furthermore, some vegetation indices, like the Leaf Area Index (LAI) and the Normalized Difference Vegetation Index (NDVI), can also be correlated with 𝜏. Notably, several studies have emphasized the substantial influence of soil roughness on the retrieved 𝜏 values at both local and regional scales {cite:p}`grant2016, fernandez-moran2017b`.
