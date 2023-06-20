@@ -76,23 +76,13 @@ Conceptual flow of Level-1b resampling to exploit CIMR oversampling and nested s
 
 ### Algorithm Assumptions and Simplifications
 
-CIMR algorithm includes some simplifications that are detailed in the following lines:
+The CIMR algorithm incorporates several simplifications, which are detailed below.
 
-For both satellite ascending and descending passes, it is assumed that the air, vegetation, and near-surface soil are in thermal equilibrium, given that the canopy temperature (Tc) can be approximated to the soil temperature (Ts) {cite:p}`Hornbuckle2005,fernandez-moran2017b`. Under this condition, we can represent both temperatures with a single effective temperature (Teff). This temperature is obtained from the Ka band using the formulation of Holmes that relies on the Ka-band {cite:p}`holmes2009`, although other approaches will be considered.
+For both ascending and descending satellite passes, it is assumed that the air, vegetation, and near-surface soil are in thermal equilibrium, given that the canopy temperature (Tc) can be approximated to the soil temperature (Ts) {cite:p}`Hornbuckle2005,fernandez-moran2017b`. In this context, we can represent both temperatures with a single effective temperature (Teff). This temperature is derived from the Ka band using the formulation of Holmes, which relies on the Ka-band {cite:p}`holmes2009`, although alternative approaches may be considered.
 
-In terms of soil roughness parameterization, the formulation followed was simplified to account for the soil roughness with a single parameter, H, derived from the full formulation proposed by Wang and Cloudhury {cite:p}`wang1981remote`. For simplicity, both soil roughness and vegetation scattering albedo are considered time invariant, although their value changes at a global scale.
+Regarding soil roughness parameterization, the formulation used is simplified to represent soil roughness with a single parameter, H, derived from the full formulation proposed by Wang and Choudhury {cite:p}`wang1981remote`. For simplification purposes, both soil roughness and vegetation scattering albedo are considered time invariant, despite their values varying on a global scale.
 
-A zeroth-order radiative transfer model, also known as the tau-omega model, is used by CIMR to estimate soil moisture. This model is a zero-order solution of the microwave radiative transfer equations, which neglects multiple reflections between vegetation canopy. Some studies has attempted to address this limitation by using higher-order radiative transfer models, as this is the case of the Two Stream Emission Model (2S-EM) {cite:p}`schwank2018` or the approach proposed by Feldman, that proposes to quantify higher order scattering through the First order scattering model (First order RTM) by introducing an additional term for the multiple scattering (Ω1) along with zeroth order scattering term (ω) using a ray-tracing method {cite:p}`feldman2018`.
-
-
-The CIMR algorithm includes some simplifications that are detailed in the following lines.
-
-For both satellite ascending and descending passes, it is assumed that the air, vegetation, and near-surface soil are in thermal equilibrium, given that the canopy temperature (Tc) can be approximated to the soil temperature (Ts) {cite:p}Hornbuckle2005,fernandez-moran2017b. Under this condition, we can represent both temperatures with a single effective temperature (Teff). This temperature is obtained from the Ka band using the formulation of Holmes that relies on the Ka-band {cite:p}holmes2009, although other approaches will be considered.
-
-In terms of soil roughness parameterization, the formulation followed is simplified to account for the soil roughness with a single parameter, H, derived from the full formulation proposed by Wang and Choudhury {cite:p}wang1981remote. For simplicity, both soil roughness and vegetation scattering albedo are considered time invariant, although their value changes on a global scale.
-
-A zeroth-order radiative transfer model, also known as the tau-omega model, is used by CIMR to estimate soil moisture. This model is a zero-order solution of the microwave radiative transfer equations, which neglects multiple reflections within the vegetation canopy. Some studies have attempted to address this limitation by using higher-order radiative transfer models, as is the case with the Two Stream Emission Model (2S-EM) {cite:p}schwank2018 or the approach proposed by Feldman, which proposes to quantify higher order scattering through the First Order Scattering Model (First Order RTM) by introducing an additional term for the multiple scattering (Ω1) along with the zeroth order scattering term (ω) using a ray-tracing method {cite:p}feldman2018.
-
+A zeroth-order radiative transfer model, also known as the tau-omega model, is utilized by CIMR to estimate soil moisture. This model is a zero-order solution of the microwave radiative transfer equations, which neglects multiple reflections within the vegetation canopy. Some studies have attempted to address this limitation by utilizing higher-order radiative transfer models, such as the Two Stream Emission Model (2S-EM) {cite:p}`schwank2018`, or the approach proposed by Feldman {cite:p}`feldman2018`. Feldman's approach proposes to quantify higher order scattering through the First Order Scattering Model (First Order RTM), introducing an additional term for multiple scattering (Ω1) alongside the zeroth order scattering term (ω), using a ray-tracing method.
 
 ### Level-2 end to end algorithm functional flow diagram
 

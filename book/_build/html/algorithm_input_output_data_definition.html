@@ -504,8 +504,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="L2_product_definition.html">Level-2 product definition</a></li>
 <li class="toctree-l1"><a class="reference internal" href="baseline_algorithm_definition.html">Baseline Algorithm Definition</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Algorithm Input and Output Data Definition (IODD)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="algorithm_performance_assessment.html">Algorithm Performance Assessment (Version 2 ATBD)</a></li>
-
+<li class="toctree-l1"><a class="reference internal" href="algorithm_performance_assessment.html">Algorithm Performance Assessment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
 <li class="toctree-l1"><a class="reference internal" href="annex.html">Annex</a></li>
 </ul>
@@ -752,12 +751,12 @@ title="Print to PDF"
 <td><p>-</p></td>
 <td><p><span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span></p></td>
 </tr>
-<tr class="row-even"><td><p>TB_RMSE</p></td>
+<tr class="row-even"><td><p>TB_L_RMSE</p></td>
 <td><p>Root Mean Squared Error between measured TB and modeled TB</p></td>
 <td><p>K</p></td>
 <td><p><span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span></p></td>
 </tr>
-<tr class="row-odd"><td><p>TB_E_RMSE</p></td>
+<tr class="row-odd"><td><p>TB_L_E_RMSE</p></td>
 <td><p>Root Mean Squared Error between enhanced TB and modeled TB</p></td>
 <td><p>K</p></td>
 <td><p><span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span></p></td>
@@ -815,6 +814,10 @@ title="Print to PDF"
 </tr>
 <tr class="row-odd"><td><p>DEM</p></td>
 <td><p>Digital Elevation Model</p></td>
+<td><p><span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>hydrology_mask</p></td>
+<td><p>Hydrology Target mask ([RD-1, MRD-854])</p></td>
 <td><p><span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span></p></td>
 </tr>
 </tbody>

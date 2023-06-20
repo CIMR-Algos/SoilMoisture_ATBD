@@ -504,8 +504,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="L2_product_definition.html">Level-2 product definition</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Baseline Algorithm Definition</a></li>
 <li class="toctree-l1"><a class="reference internal" href="algorithm_input_output_data_definition.html">Algorithm Input and Output Data Definition (IODD)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="algorithm_performance_assessment.html">Algorithm Performance Assessment (Version 2 ATBD)</a></li>
-
+<li class="toctree-l1"><a class="reference internal" href="algorithm_performance_assessment.html">Algorithm Performance Assessment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
 <li class="toctree-l1"><a class="reference internal" href="annex.html">Annex</a></li>
 </ul>
@@ -716,7 +715,7 @@ title="Print to PDF"
 <p>The retrieval of soil moisture from CIMR surface TB observations relies on a widely recognized approximation to the radiative transfer equation referred to as the tau-omega model, which, in this case, is referred to as the forward model. In tau-omega, a soil layer covered by vegetation attenuates the soil’s emission while contributing its own emission to the overall radiative flux. Given that scattering within vegetation is generally negligible at L band frequencies, the vegetation can be predominantly treated as an absorbing layer <span id="id1">[<a class="reference internal" href="references.html#id23" title="Y. Kerr, P. Waldteufel, P. Richaume, I. Davenport, P. Ferrazoli, and J.-P. Wigneron. Smos level 2 processor soil moisture algorithm theoretical basis document (atbd). Technical Report SO-TN-ESL-SM-GS-0001, CESBIO, SM-ESL (CBSA), Toulouse, France, 2006.">Kerr <em>et al.</em>, 2006</a>, <a class="reference internal" href="references.html#id24" title="Peggy O'Neill, Rajat Bindlish, Steven Chan, Julian Chaubell, Eni Njoku, and Tom Jackson. Soil moisture active passive (smap) algorithm theoretical basis document: level 2 &amp; 3 soil moisture (passive) data products. Technical Report JPL D-66480, NASA Goddard Space Flight Center and Jet Propulsion Laboratory, California Institute of Technology, Greenbelt, MD and Pasadena, CA and Beltsville, MD, August 2020.">O'Neill <em>et al.</em>, 2020</a>]</span>. Thus, TB can be expressed as follows:</p>
 <div class="math notranslate nohighlight" id="equation-tb-tauomega">
 <span class="eqno">(1)<a class="headerlink" href="#equation-tb-tauomega" title="Permalink to this equation">#</a></span>\[TB_p = T_s e_p exp{(-\tau_p \sec \theta)} + T_c (1 - \omega_p)[1 - \exp(-\tau_p \sec \theta)][1 + r_p \exp(-\tau_p \sec \theta)]\]</div>
-<p>Where the subscript p refers to polarization (V or H), Ts denotes the soil’s effective temperature, Tc stands for the canopy temperature, 𝜏_p represents the nadir vegetation opacity, 𝜔_p corresponds to the vegetation single scattering albedo, and rp is the soil reflectivity of a rough surface. The reflectivity is connected to the emissivity (ep) through the relation ep = (1 - rp).</p>
+<p>Where the subscript p refers to polarization (V or H), Ts denotes the soil temperature and Tc stands for the canopy temperature, 𝜏_p represents the nadir vegetation opacity, 𝜔_p corresponds to the vegetation single scattering albedo, and rp is the soil reflectivity of a rough surface. The reflectivity is connected to the emissivity (ep) through the relation ep = (1 - rp). It must be noted that 𝜔_p will be treated here as an effective parameter <span id="id2">[<a class="reference internal" href="references.html#id28" title="Mehmet Kurum. Quantifying scattering albedo in microwave emission of vegetated terrain. Remote Sensing of Environment, 129:66-74, 2013. URL: https://www.sciencedirect.com/science/article/pii/S0034425712004099, doi:https://doi.org/10.1016/j.rse.2012.10.021.">Kurum, 2013</a>]</span>.</p>
 <p>According to Beer’s law, the overlying canopy layer’s transmissivity or vegetation attenuation factor , γ, is given by γ = exp(-𝜏_p sec 𝜃). Equation <a class="reference internal" href="#equation-tb-tauomega">(1)</a> assumes that vegetation multiple scattering and reflection at the vegetation-air interface are negligible.</p>
 <p>Surface roughness is modeled as r_p  = r*_p exp (-H_R), where H_R parameterizes the intensity of the roughness effects, r*_p stands for the reflectivity of a plane surface. Nadir vegetation opacity is related to the total vegetation water content (VWC, in kg/m2) by 𝜏_p = bp·VWC, with the coefficient bp dependent on vegetation type and microwave frequency (and polarization) {cite:p}Van De Griend2004.</p>
 <p>The surface reflectance rp is characterized by the Fresnel equations, which detail the actions of an electromagnetic wave when interacting with a smooth surface. When an electromagnetic wave encounters a surface that separates two media with different dielectric properties (e.g., air and soil), part of the wave’s energy is reflected at the surface, and part is transmitted through it. The Fresnel equations are used to calculate the amount of energy reflected based on the incident angle of the wave and the dielectric properties of the involved media. For horizontal polarization, the wave’s electric field aligns parallel to the reflecting surface and perpendicular to the propagation direction. In contrast, for vertical polarization, the electric field of the wave has a component perpendicular to the surface. Equations <a class="reference internal" href="#equation-rh-theta">(2)</a><a class="reference internal" href="#equation-rv-theta">(3)</a> show the Fresnel equations for both horizontal and vertical polarizations.</p>
@@ -730,7 +729,7 @@ title="Print to PDF"
 </section>
 <section id="retrieval-method">
 <h2>Retrieval Method<a class="headerlink" href="#retrieval-method" title="Permalink to this heading">#</a></h2>
-<p>Prior to implementing the soil moisture retrieval, a preliminary step is to perform a water body correction to the brightness temperature data for cases where a significant percentage of the grid cells contain open water. As it is well known, brightness temperature values notably decrease when the water fraction increases <span id="id2">[<a class="reference internal" href="references.html#id4" title="Fawwaz T. Ulaby and David G. Long. Microwave Radar and Radiometric Remote Sensing. University of Michigan Press, 2014. doi:10.3998/0472119356.">Ulaby and Long, 2014</a>]</span>, leading to an overestimation of the retrieved SM values <span id="id3">[<a class="reference internal" href="references.html#id5" title="N Ye, J P Walker, J Guerschman, D Ryu, and R J Gurney. Standing water effect on soil moisture retrieval from L-band passive microwave observations. Remote Sens. Environ., 169:232–242, 2015. URL: https://www.sciencedirect.com/science/article/pii/S0034425715301012, doi:https://doi.org/10.1016/j.rse.2015.08.013.">Ye <em>et al.</em>, 2015</a>]</span> and inducing artificial seasonal cycles of VOD <span id="id4">[<a class="reference internal" href="references.html#id3" title="Emma Bousquet, Arnaud Mialon, Nemesio Rodriguez-Fernandez, Catherine Prigent, Fabien H Wagner, and Yann H Kerr. Influence of surface water variations on VOD and biomass estimates from passive microwave sensors. Remote Sens. Environ., 257:112345, 2021. URL: https://www.sciencedirect.com/science/article/pii/S0034425721000638, doi:https://doi.org/10.1016/j.rse.2021.112345.">Bousquet <em>et al.</em>, 2021</a>]</span>. It is therefore important to correct the CIMR brightness temperatures for the presence of water, to the extent feasible, prior to using them as inputs to the Level-2 Soil Moisture retrieval. This correction needs to be performed at Level1-B using the CIMR Hydrology Target mask ([RD-1] MRD-854), before the optimal interpolation or re-gridding process. The hydrology target mask will include information from both permanent and transitory water surfaces that shall be identified with the surface water seasonality information provided by the CIMR Surface Water Fraction (SWF) product as well as ancillary information.</p>
+<p>Prior to implementing the soil moisture retrieval, a preliminary step is to perform a water body correction to the brightness temperature data for cases where a significant percentage of the grid cells contain open water. As it is well known, brightness temperature values notably decrease when the water fraction increases <span id="id3">[<a class="reference internal" href="references.html#id4" title="Fawwaz T. Ulaby and David G. Long. Microwave Radar and Radiometric Remote Sensing. University of Michigan Press, 2014. doi:10.3998/0472119356.">Ulaby and Long, 2014</a>]</span>, leading to an overestimation of the retrieved SM values <span id="id4">[<a class="reference internal" href="references.html#id5" title="N Ye, J P Walker, J Guerschman, D Ryu, and R J Gurney. Standing water effect on soil moisture retrieval from L-band passive microwave observations. Remote Sens. Environ., 169:232–242, 2015. URL: https://www.sciencedirect.com/science/article/pii/S0034425715301012, doi:https://doi.org/10.1016/j.rse.2015.08.013.">Ye <em>et al.</em>, 2015</a>]</span> and inducing artificial seasonal cycles of VOD <span id="id5">[<a class="reference internal" href="references.html#id3" title="Emma Bousquet, Arnaud Mialon, Nemesio Rodriguez-Fernandez, Catherine Prigent, Fabien H Wagner, and Yann H Kerr. Influence of surface water variations on VOD and biomass estimates from passive microwave sensors. Remote Sens. Environ., 257:112345, 2021. URL: https://www.sciencedirect.com/science/article/pii/S0034425721000638, doi:https://doi.org/10.1016/j.rse.2021.112345.">Bousquet <em>et al.</em>, 2021</a>]</span>. It is therefore important to correct the CIMR brightness temperatures for the presence of water, to the extent feasible, prior to using them as inputs to the Level-2 Soil Moisture retrieval. This correction needs to be performed at Level1-B using the CIMR Hydrology Target mask ([RD-1] MRD-854), before the optimal interpolation or re-gridding process. The hydrology target mask will include information from both permanent and transitory water surfaces that shall be identified with the surface water seasonality information provided by the CIMR Surface Water Fraction (SWF) product as well as ancillary information.</p>
 <p>The procedure to acquire soil moisture (SM) and vegetation optical depth (VOD, also denoted as τ) requires the minimization of the cost function F, as shown in <a class="reference internal" href="#equation-cost-fun">(4)</a>.</p>
 <div class="math notranslate nohighlight" id="equation-cost-fun">
 <span class="eqno">(4)<a class="headerlink" href="#equation-cost-fun" title="Permalink to this equation">#</a></span>\[F(SM, \tau) = \frac{(TB_p^{obs} - TB_p)^2}{\sigma(TB)^2} + \sum_{i=1}^2\frac{(P_{i}^{ini} - P_i)^2}{\sigma(P_i)^2}\]</div>
@@ -751,10 +750,14 @@ title="Print to PDF"
 </section>
 <section id="algorithm-assumptions-and-simplifications">
 <h2>Algorithm Assumptions and Simplifications<a class="headerlink" href="#algorithm-assumptions-and-simplifications" title="Permalink to this heading">#</a></h2>
-<ul class="simple">
-<li><p>The thermal equilibrium</p></li>
-<li><p>Q and N parameters of the soil roughness model</p></li>
-</ul>
+<p>CIMR algorithm includes some simplifications that are detailed in the following lines:</p>
+<p>For both satellite ascending and descending passes, it is assumed that the air, vegetation, and near-surface soil are in thermal equilibrium, given that the canopy temperature (Tc) can be approximated to the soil temperature (Ts) <span id="id6">[<a class="reference internal" href="references.html#id18" title="R. Fernandez-Moran, J.-P. Wigneron, G. De Lannoy, E. Lopez-Baeza, M. Parrens, A. Mialon, A. Mahmoodi, A. Al-Yaari, S. Bircher, A. Al Bitar, and others. A new calibration of the effective scattering albedo and soil roughness parameters in the smos sm retrieval algorithm. International Journal of Applied Earth Observation and Geoinformation, 62:27–38, 2017. doi:10.1016/j.jag.2017.05.013.">Fernandez-Moran <em>et al.</em>, 2017</a>, <a class="reference internal" href="references.html#id29" title="B.K. Hornbuckle and A.W. England. Diurnal variation of vertical temperature gradients within a field of maize: implications for satellite microwave radiometry. IEEE Geoscience and Remote Sensing Letters, 2(1):74-77, 2005. doi:10.1109/LGRS.2004.841370.">Hornbuckle and England, 2005</a>]</span>. Under this condition, we can represent both temperatures with a single effective temperature (Teff). This temperature is obtained from the Ka band using the formulation of Holmes that relies on the Ka-band <span id="id7">[<a class="reference internal" href="references.html#id26" title="T. R. H. Holmes, R. A. M. De Jeu, M. Owe, and A. J. Dolman. Land surface temperature from ka band (37 ghz) passive microwave observations. J. Geophys. Res. Atmos., 2009.">Holmes <em>et al.</em>, 2009</a>]</span>, although other approaches will be considered.</p>
+<p>In terms of soil roughness parameterization, the formulation followed was simplified to account for the soil roughness with a single parameter, H, derived from the full formulation proposed by Wang and Cloudhury <span id="id8">[<a class="reference internal" href="references.html#id30" title="J.R. Wang and B.J. Choudhury. Remote sensing of soil moisture content over bare field at 1.4 ghz frequency. Journal of Geophysical Research, 86:5277-5282, 1981.">Wang and Choudhury, 1981</a>]</span>. For simplicity, both soil roughness and vegetation scattering albedo are considered time invariant, although their value changes at a global scale.</p>
+<p>A zeroth-order radiative transfer model, also known as the tau-omega model, is used by CIMR to estimate soil moisture. This model is a zero-order solution of the microwave radiative transfer equations, which neglects multiple reflections between vegetation canopy. Some studies has attempted to address this limitation by using higher-order radiative transfer models, as this is the case of the Two Stream Emission Model (2S-EM) <span id="id9">[<a class="reference internal" href="references.html#id31" title="M. Schwank, R. Naderpour, and C. Mätzler. &quot;tau-omega&quot;- and two-stream emission models used for passive l-band retrievals: application to close-range measurements over a forest. Remote Sensing, 10(12):1868, 2018. doi:10.3390/rs10121868.">Schwank <em>et al.</em>, 2018</a>]</span> or the approach proposed by Feldman, that proposes to quantify higher order scattering through the First order scattering model (First order RTM) by introducing an additional term for the multiple scattering (Ω1) along with zeroth order scattering term (ω) using a ray-tracing method <span id="id10">[<a class="reference internal" href="references.html#id32" title="Andrew F. Feldman, Ruzbeh Akbar, and Dara Entekhabi. Characterization of higher-order scattering from vegetation with smap measurements. Remote Sensing of Environment, 219:324-338, 2018. URL: https://www.sciencedirect.com/science/article/pii/S0034425718304760, doi:10.1016/j.rse.2018.10.022.">Feldman <em>et al.</em>, 2018</a>]</span>.</p>
+<p>The CIMR algorithm includes some simplifications that are detailed in the following lines.</p>
+<p>For both satellite ascending and descending passes, it is assumed that the air, vegetation, and near-surface soil are in thermal equilibrium, given that the canopy temperature (Tc) can be approximated to the soil temperature (Ts) {cite:p}Hornbuckle2005,fernandez-moran2017b. Under this condition, we can represent both temperatures with a single effective temperature (Teff). This temperature is obtained from the Ka band using the formulation of Holmes that relies on the Ka-band {cite:p}holmes2009, although other approaches will be considered.</p>
+<p>In terms of soil roughness parameterization, the formulation followed is simplified to account for the soil roughness with a single parameter, H, derived from the full formulation proposed by Wang and Choudhury {cite:p}wang1981remote. For simplicity, both soil roughness and vegetation scattering albedo are considered time invariant, although their value changes on a global scale.</p>
+<p>A zeroth-order radiative transfer model, also known as the tau-omega model, is used by CIMR to estimate soil moisture. This model is a zero-order solution of the microwave radiative transfer equations, which neglects multiple reflections within the vegetation canopy. Some studies have attempted to address this limitation by using higher-order radiative transfer models, as is the case with the Two Stream Emission Model (2S-EM) {cite:p}schwank2018 or the approach proposed by Feldman, which proposes to quantify higher order scattering through the First Order Scattering Model (First Order RTM) by introducing an additional term for the multiple scattering (Ω1) along with the zeroth order scattering term (ω) using a ray-tracing method {cite:p}feldman2018.</p>
 </section>
 <section id="level-2-end-to-end-algorithm-functional-flow-diagram">
 <h2>Level-2 end to end algorithm functional flow diagram<a class="headerlink" href="#level-2-end-to-end-algorithm-functional-flow-diagram" title="Permalink to this heading">#</a></h2>
@@ -787,38 +790,11 @@ SubSubsection Text
 </section>
 <section id="input-data">
 <h3>Input data<a class="headerlink" href="#input-data" title="Permalink to this heading">#</a></h3>
-<p>Besides TB measurements, the CIMR retrieval algorithm uses supplementary datasets for accurate soil moisture extraction. The required data encompasses:</p>
-<ul class="simple">
-<li><p>Surface temperature</p></li>
-<li><p>Soil texture (clay fraction)</p></li>
-<li><p>Land cover type classification</p></li>
-<li><p>Vegetation single scattering albedo</p></li>
-<li><p>Surface roughness information</p></li>
-</ul>
-<p>The surface temperature is the soil/canopy temperature obtained from the Ka band using the formulation of Holmes that relies on the Ka band <span id="id5">[<a class="reference internal" href="references.html#id26" title="T. R. H. Holmes, R. A. M. De Jeu, M. Owe, and A. J. Dolman. Land surface temperature from ka band (37 ghz) passive microwave observations. J. Geophys. Res. Atmos., 2009.">Holmes <em>et al.</em>, 2009</a>]</span>.</p>
-<p>The specific parameters and sources of these parameters are detailed in the Ancillary data section.</p>
+<p>The input data for the model consists of two primary parameters. The first is the Level 1b Brightness Temperature (L1b TB), which is observed by CIMR at L, C, and X-bands, covering both horizontal and vertical polarizations. This data is represented in a 2D array format with grid dimensions denoted as <span class="math notranslate nohighlight">\([xdim_{grid}, ydim_{grid}]\)</span>. The second parameter, TB_err, represents the error associated with the Brightness Temperature. This error information is also organized in a grid of the same dimensions, <span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span>. This information is detailed in <a class="reference internal" href="algorithm_input_output_data_definition.html"><span class="doc std std-doc">IODD</span></a>.</p>
 </section>
 <section id="output-data">
 <h3>Output data<a class="headerlink" href="#output-data" title="Permalink to this heading">#</a></h3>
-<p>In the output data, the retrieved parameters, soil moisture and vegetation, are included along with their associated errors. Additionally, this information is supplemented with the acquisition time, location (latitude, longitude), row and column indices in the EASE V2 grid, flags indicating data quality, and ancillary data such as single scattering albedo, soil roughness, clay fraction, and land cover class percentages per pixel.</p>
-<ul class="simple">
-<li><p>Vegetation_Optical depth</p></li>
-<li><p>Latitude (degrees)</p></li>
-<li><p>Longitude (degrees)</p></li>
-<li><p>Soil_Moisture: in <span class="math notranslate nohighlight">\(m^3/m^3\)</span></p></li>
-<li><p>Soil_Moisture_StdError: Error on the derived Soil moisture in <span class="math notranslate nohighlight">\(m^3/m^3\)</span></p></li>
-<li><p>Quality flags</p></li>
-<li><p>Soil and canopy temperature</p></li>
-<li><p>Days</p></li>
-<li><p>UTC time in seconds</p></li>
-<li><p>EASE row index: Global 36-km EASE2 Grid 0-based row index EASE_column_index</p></li>
-<li><p>EASE column index: Global 36-km EASE2 Grid 0-based column index EASE_column_index</p></li>
-<li><p>Single scattering albedo</p></li>
-<li><p>Soil roughness</p></li>
-<li><p>Clay fraction</p></li>
-</ul>
-<p>Data flags for identification of land, water, urban areas, permanent ice/snow, and topographic effects</p>
-<p>The specific parameters and sources of these parameters are detailed in the Ancillary data section.</p>
+<p>The model outputs include key parameters such as soil moisture and vegetation optical depth at a coarse and an enhanced resolution. Additional information like brightness temperature, geographical data, albedo, and various flags supplement these outputs. More details can be found in <a class="reference internal" href="algorithm_input_output_data_definition.html"><span class="doc std std-doc">IODD</span></a>.</p>
 <!--
 ##### Auxiliary data
 
@@ -827,6 +803,85 @@ SubSubsection Text
 </section>
 <section id="ancillary-data">
 <h3>Ancillary data<a class="headerlink" href="#ancillary-data" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Shape/Amount</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>CIMR_SWF</p></td>
+<td><p>CIMR Surface Water Fraction</p></td>
+<td><p><span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>CIMR_LST</p></td>
+<td><p>CIMR Land Surface Temperature  (from L1b TB CIMR Ka band)</p></td>
+<td><p><span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>LST</p></td>
+<td><p>Land Surface Temperature  (from ECMWF)</p></td>
+<td><p><span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>soil_texture</p></td>
+<td><p>Clay fraction (from FAO)</p></td>
+<td><p><span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>LCC</p></td>
+<td><p>IGBP Land Cover type Classification (from MODIS)</p></td>
+<td><p><span class="math notranslate nohighlight">\([17, xdim_{grid},ydim_{grid}]\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>albedo</p></td>
+<td><p>Vegetation single scattering albedo (from SMOS-IC)</p></td>
+<td><p><span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>H</p></td>
+<td><p>Surface roughness information (from SMOS-IC)</p></td>
+<td><p><span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>DEM</p></td>
+<td><p>Digital Elevation Model</p></td>
+<td><p><span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>hydrology_mask</p></td>
+<td><p>Hydrology Target mask ([RD-1, MRD-854])</p></td>
+<td><p><span class="math notranslate nohighlight">\([xdim_{grid},ydim_{grid}]\)</span></p></td>
+</tr>
+</tbody>
+</table>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>ID</p></th>
+<th class="head"><p>Parameter</p></th>
+<th class="head"><p>Data Source</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>h Roughness Parameter (file)</p></td>
+<td><p>pre-computed from SMOS-IC</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>Permanent Ice</p></td>
+<td><p>MODIS</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>Mountainous Area [DEM]</p></td>
+<td><p>-</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>Land Cover Class</p></td>
+<td><p>MODIS IGBP</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>Soil Attributes (clay fraction)</p></td>
+<td><p>FAO [replaced in R17 2020 data release by SoilGrid250m available at <a class="reference external" href="https://openlandmap.org">https://openlandmap.org</a>]</p></td>
+</tr>
+</tbody>
+</table>
+<p>| Single scattering albedo  | Measure of surface reflectance                             | -         |                                                         |
+| Soil roughness            | Indicator of the irregularity of the soil surface          | -         |                                                         |
+| Clay fraction             | Portion of the soil composed of clay particles             |</p>
 <table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>ID</p></th>
@@ -975,39 +1030,12 @@ Note 5: Monthly masks could be considered, with possible updates during the miss
 
     |
 -->
-<table class="table">
-<thead>
-<tr class="row-odd"><th class="head"><p>ID</p></th>
-<th class="head"><p>Parameter</p></th>
-<th class="head"><p>Data Source</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>1</p></td>
-<td><p>h Roughness Parameter (file)</p></td>
-<td><p>pre-computed from SMOS-IC</p></td>
-</tr>
-<tr class="row-odd"><td><p>2</p></td>
-<td><p>Permanent Ice</p></td>
-<td><p>MODIS</p></td>
-</tr>
-<tr class="row-even"><td><p>3</p></td>
-<td><p>Mountainous Area [DEM]</p></td>
-<td><p>-</p></td>
-</tr>
-<tr class="row-odd"><td><p>4</p></td>
-<td><p>Land Cover Class</p></td>
-<td><p>MODIS IGBP</p></td>
-</tr>
-<tr class="row-even"><td><p>5</p></td>
-<td><p>Soil Attributes (clay fraction)</p></td>
-<td><p>FAO [replaced in R17 2020 data release by SoilGrid250m available at <a class="reference external" href="https://openlandmap.org">https://openlandmap.org</a>]</p></td>
-</tr>
-</tbody>
-</table>
-<p>| Single scattering albedo  | Measure of surface reflectance                             | -         |                                                         |
-| Soil roughness            | Indicator of the irregularity of the soil surface          | -         |                                                         |
-| Clay fraction             | Portion of the soil composed of clay particles             | -         |</p>
+<ul>
+<li><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>    |   
+</pre></div>
+</div>
+</li>
+</ul>
 </section>
 <section id="validation-process">
 <h3>Validation process<a class="headerlink" href="#validation-process" title="Permalink to this heading">#</a></h3>

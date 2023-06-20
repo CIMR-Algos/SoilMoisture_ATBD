@@ -498,8 +498,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="L2_product_definition.html">Level-2 product definition</a></li>
 <li class="toctree-l1"><a class="reference internal" href="baseline_algorithm_definition.html">Baseline Algorithm Definition</a></li>
 <li class="toctree-l1"><a class="reference internal" href="algorithm_input_output_data_definition.html">Algorithm Input and Output Data Definition (IODD)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="algorithm_performance_assessment.html">Algorithm Performance Assessment (Version 2 ATBD)</a></li>
-
+<li class="toctree-l1"><a class="reference internal" href="algorithm_performance_assessment.html">Algorithm Performance Assessment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
 <li class="toctree-l1"><a class="reference internal" href="annex.html">Annex</a></li>
 </ul>
@@ -630,8 +629,8 @@ title="Print to PDF"
   <section class="tex2jax_ignore mathjax_ignore" id="abstract">
 <h1>Abstract<a class="headerlink" href="#abstract" title="Permalink to this heading">#</a></h1>
 <p>This Algorithm Theoretical Basis Document (ATBD) presents the theoretical basis for the Copernicus Imaging Microwave Radiometer (CIMR) soil moisture (SM) retrieval algorithm. In doing so, the forthcoming CIMR mission carries on the legacy of successful L-band missions such as SMOS, SMAP, and Aquarius.</p>
-<p>The proposed algorithm is based on the tau-omega model and the SMOS-IC algorithm for SMOS and the Dual Channel Algorithm for SMAP. It utilizes both H-polarized and V-polarized brightness temperature (TB) observations at the L-band frequency (~1.4 GHz) to estimate soil moisture.</p>
-<p>The aim is to disaggregate L-band using C/X bands at a higher spatial resolution, leading to two soil moisture products: the first is based on the inversion of L-band-only TBs at its native resolution (~60 km, Hydroclimatological), and the second involves the inversion of L-band at an enhanced spatial resolution (~10 to 25 km, Hydrometeorological). In addition to soil moisture, the algorithm also delivers a second product: the vegetation opacity, τ, derived from L, C, X and Ku bands. This parameter holds potential correlations with diverse vegetation attributes.</p>
+<p>The proposed algorithm for the retrieval of SM is based on the simultaneous retrieval of soil moisture and vegetation properties. It builds on the tau-omega radiative transfer model and heritage of the SMOS-IC algorithm and the SMAP Multi-Temporal Dual Channel Algorithm but evolves to reduce dependencies on ancillary information by exploiting CIMR multispectral characteristics and daily revisit. It utilizes both H-polarized and V-polarized brightness temperature (TB) observations at the L-band frequency (~1.4 GHz) to estimate SM. Across CIMR bands, L-band has the highest sensitivity to SM but also the coarsest spatial resolution.</p>
+<p>The aim is to disaggregate L-band using C/X bands at a higher spatial resolution, leading to two soil moisture products: the first is based on the inversion of L-band-only TBs at its native resolution (~60 km, Hydroclimatological), and the second involves the inversion of L-band at an enhanced spatial resolution (~10 to 25 km, Hydrometeorological). In addition to soil moisture, the algorithm also delivers a second product: the vegetation optical depth (VOD or τ), derived from L, C, X and Ku bands, that represents the degree of attenuation of the microwaves through the canopy. This microwave vegetation parameter is an ecological indicator that correlates well with diverse vegetation attributes such as water content and biomass.</p>
 </section>
 
     <script type="text/x-thebe-config">

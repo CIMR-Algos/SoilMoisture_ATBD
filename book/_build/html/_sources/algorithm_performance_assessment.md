@@ -1,5 +1,8 @@
 # Algorithm Performance Assessment (Version 2 ATBD)
 
+<!--
+
+
 Self standing Python code and results within Jupyter Book
 
 ### L1 E2ES Demonstration Reference Scenario (Picasso) scene definition
@@ -16,6 +19,6 @@ Self standing Python code and results within Jupyter Book
 
 # Version 2 ATBD: Roadmap for future ATBD development
 
-
+-->
 
 

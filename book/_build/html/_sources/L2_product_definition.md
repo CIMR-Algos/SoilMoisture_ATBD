@@ -14,7 +14,7 @@
 | albedo    | Vegetation single scattering albedo  | - | $[xdim_{grid},ydim_{grid}]$ |
 | EASE row index            | Row index in the global EASE2 grid                   | -         | $[xdim_{grid},ydim_{grid}]$ |
 | EASE column index         | Column index in the global EASE2 grid                | -         | $[xdim_{grid},ydim_{grid}]$ |
-| TB_RMSE            | Root Mean Squared Error between measured TB and modeled TB                      | K      | $[xdim_{grid},ydim_{grid}]$ |
-| TB_E_RMSE          | Root Mean Squared Error between enhanced TB and modeled TB                      | K      | $[xdim_{grid},ydim_{grid}]$ |
+| TB_L_RMSE            | Root Mean Squared Error between measured TB and modeled TB                      | K      | $[xdim_{grid},ydim_{grid}]$ |
+| TB_L_E_RMSE          | Root Mean Squared Error between enhanced TB and modeled TB                      | K      | $[xdim_{grid},ydim_{grid}]$ |
 | scene_flags             | RFI, proximity to water body, urban, ice/snow, frozen soil, precipitation, medium and strong topographic effects.                      | *8-bits flag*      | $[xdim_{grid},ydim_{grid}]$ |
 | status_flag             | Product quality flag                      | n/a      | $[xdim_{grid},ydim_{grid}]$ |
