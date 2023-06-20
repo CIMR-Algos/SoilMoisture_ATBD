@@ -40,6 +40,8 @@ NASA
 NDVI
   Normalized Difference Vegetation Index
 
+RTM
+  Radiative Transfer Model
 RFI
   Radio Frequency Interference
 

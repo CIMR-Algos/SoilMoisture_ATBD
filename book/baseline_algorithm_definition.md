@@ -17,14 +17,7 @@ The retrieval of soil moisture from CIMR surface TB observations relies on a wid
 TB_p = T_s e_p exp{(-\tau_p \sec \theta)} + T_c (1 - \omega_p)[1 - \exp(-\tau_p \sec \theta)][1 + r_p \exp(-\tau_p \sec \theta)]
 ```
 
-
-Where the subscript p refers to polarization (V or H), Ts denotes the soil's effective temperature, Tc stands for the canopy temperature, 𝜏_p represents the nadir vegetation opacity, 𝜔_p corresponds to the vegetation single scattering albedo, and rp is the soil reflectivity of a rough surface. The reflectivity is connected to the emissivity (ep) through the relation ep = (1 - rp). 
-
-
-EFFECTIVE ALBEDO !!!
-https://www.sciencedirect.com/science/article/pii/S0034425712004099
-
-
+Where the subscript p refers to polarization (V or H), Ts denotes the soil temperature and Tc stands for the canopy temperature, 𝜏_p represents the nadir vegetation opacity, 𝜔_p corresponds to the vegetation single scattering albedo, and rp is the soil reflectivity of a rough surface. The reflectivity is connected to the emissivity (ep) through the relation ep = (1 - rp). It must be noted that 𝜔_p will be treated here as an effective parameter {cite:p}`KURUM201366`.
 
 According to Beer's law, the overlying canopy layer's transmissivity or vegetation attenuation factor , γ, is given by γ = exp(-𝜏_p sec 𝜃). Equation {eq}`TB-tauomega` assumes that vegetation multiple scattering and reflection at the vegetation-air interface are negligible. 
 
@@ -83,12 +76,22 @@ Conceptual flow of Level-1b resampling to exploit CIMR oversampling and nested s
 
 ### Algorithm Assumptions and Simplifications
 
-- The thermal equilibrium
+CIMR algorithm includes some simplifications that are detailed in the following lines:
 
-- Q and N parameters of the soil roughness model
-- Static albedo and roughness
-- evaluating the use in SMOS-IC of a first order modelling approach (2-Stream) (https://www.mdpi.com/2072-4292/10/12/1868) instead of the zero-order Tau-Omega model (Li et al., 2020a). 0th order RTM. Multi scattering.
-  (https://www.sciencedirect.com/science/article/pii/S0034425718304760?via%3Dihub9).
+For both satellite ascending and descending passes, it is assumed that the air, vegetation, and near-surface soil are in thermal equilibrium, given that the canopy temperature (Tc) can be approximated to the soil temperature (Ts) {cite:p}`Hornbuckle2005,fernandez-moran2017b`. Under this condition, we can represent both temperatures with a single effective temperature (Teff). This temperature is obtained from the Ka band using the formulation of Holmes that relies on the Ka-band {cite:p}`holmes2009`, although other approaches will be considered.
+
+In terms of soil roughness parameterization, the formulation followed was simplified to account for the soil roughness with a single parameter, H, derived from the full formulation proposed by Wang and Cloudhury {cite:p}`wang1981remote`. For simplicity, both soil roughness and vegetation scattering albedo are considered time invariant, although their value changes at a global scale.
+
+A zeroth-order radiative transfer model, also known as the tau-omega model, is used by CIMR to estimate soil moisture. This model is a zero-order solution of the microwave radiative transfer equations, which neglects multiple reflections between vegetation canopy. Some studies has attempted to address this limitation by using higher-order radiative transfer models, as this is the case of the Two Stream Emission Model (2S-EM) {cite:p}`schwank2018` or the approach proposed by Feldman, that proposes to quantify higher order scattering through the First order scattering model (First order RTM) by introducing an additional term for the multiple scattering (Ω1) along with zeroth order scattering term (ω) using a ray-tracing method {cite:p}`feldman2018`.
+
+
+The CIMR algorithm includes some simplifications that are detailed in the following lines.
+
+For both satellite ascending and descending passes, it is assumed that the air, vegetation, and near-surface soil are in thermal equilibrium, given that the canopy temperature (Tc) can be approximated to the soil temperature (Ts) {cite:p}Hornbuckle2005,fernandez-moran2017b. Under this condition, we can represent both temperatures with a single effective temperature (Teff). This temperature is obtained from the Ka band using the formulation of Holmes that relies on the Ka-band {cite:p}holmes2009, although other approaches will be considered.
+
+In terms of soil roughness parameterization, the formulation followed is simplified to account for the soil roughness with a single parameter, H, derived from the full formulation proposed by Wang and Choudhury {cite:p}wang1981remote. For simplicity, both soil roughness and vegetation scattering albedo are considered time invariant, although their value changes on a global scale.
+
+A zeroth-order radiative transfer model, also known as the tau-omega model, is used by CIMR to estimate soil moisture. This model is a zero-order solution of the microwave radiative transfer equations, which neglects multiple reflections within the vegetation canopy. Some studies have attempted to address this limitation by using higher-order radiative transfer models, as is the case with the Two Stream Emission Model (2S-EM) {cite:p}schwank2018 or the approach proposed by Feldman, which proposes to quantify higher order scattering through the First Order Scattering Model (First Order RTM) by introducing an additional term for the multiple scattering (Ω1) along with the zeroth order scattering term (ω) using a ray-tracing method {cite:p}feldman2018.
 
 
 ### Level-2 end to end algorithm functional flow diagram
@@ -129,45 +132,12 @@ SubSubsection Text
 ##### Input data
 
 
-
-Besides TB measurements, the CIMR retrieval algorithm uses supplementary datasets for accurate soil moisture extraction. The required data encompasses:
-
-- Surface temperature
-- Soil texture (clay fraction)
-- Land cover type classification
-- Vegetation single scattering albedo
-- Surface roughness information
-
-
-
-The surface temperature is the soil/canopy temperature obtained from the Ka band using the formulation of Holmes that relies on the Ka band {cite:p}`holmes2009`. 
-
-The specific parameters and sources of these parameters are detailed in the Ancillary data section.
+The input data for the model consists of two primary parameters. The first is the Level 1b Brightness Temperature (L1b TB), which is observed by CIMR at L, C, and X-bands, covering both horizontal and vertical polarizations. This data is represented in a 2D array format with grid dimensions denoted as $[xdim_{grid}, ydim_{grid}]$. The second parameter, TB_err, represents the error associated with the Brightness Temperature. This error information is also organized in a grid of the same dimensions, $[xdim_{grid},ydim_{grid}]$. This information is detailed in [IODD](algorithm_input_output_data_definition.md).
 
 
 ##### Output data
 
-In the output data, the retrieved parameters, soil moisture and vegetation, are included along with their associated errors. Additionally, this information is supplemented with the acquisition time, location (latitude, longitude), row and column indices in the EASE V2 grid, flags indicating data quality, and ancillary data such as single scattering albedo, soil roughness, clay fraction, and land cover class percentages per pixel.
-
-- Vegetation_Optical depth
-- Latitude (degrees)
-- Longitude (degrees)
-- Soil_Moisture: in $m^3/m^3$
-- Soil_Moisture_StdError: Error on the derived Soil moisture in $m^3/m^3$
-- Quality flags
-- Soil and canopy temperature
-- Days
-- UTC time in seconds
-- EASE row index: Global 36-km EASE2 Grid 0-based row index EASE_column_index
-- EASE column index: Global 36-km EASE2 Grid 0-based column index EASE_column_index
-- Single scattering albedo
-- Soil roughness
-- Clay fraction
-
-Data flags for identification of land, water, urban areas, permanent ice/snow, and topographic effects
-
-
-The specific parameters and sources of these parameters are detailed in the Ancillary data section.
+The model outputs include key parameters such as soil moisture and vegetation optical depth at a coarse and an enhanced resolution. Additional information like brightness temperature, geographical data, albedo, and various flags supplement these outputs. More details can be found in [IODD](algorithm_input_output_data_definition.md).
 
 <!--
 ##### Auxiliary data
@@ -261,7 +231,6 @@ Note 5: Monthly masks could be considered, with possible updates during the miss
 -->
 
 -         |   
-
 
 ##### Validation process
 
