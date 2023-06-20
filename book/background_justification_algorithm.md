@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Soil moisture is a crucial part of the Earth's water cycle and it has been monitored for agricultural purposes, water supply management, climate forecasting, forest fire prediction and land-atmosphere interactions {cite:p}`dorigo2017`. Soil moisture is defined as the amount of water held in the soil, and relates to precipitation, evaporation, and plant uptake {cite:p}`seneviratne2010`. Changes in soil moisture can have substantial impacts on agricultural productivity, forest and the general ecosystem health.
+Soil moisture is a crucial part of the Earth's water cycle and it has been monitored for agricultural purposes, water supply management, climate forecasting, forest fire prediction and land-atmosphere interactions {cite:p}`dorigo2017`. Soil moisture is defined as the amount of water held in the soil, and relates to precipitation, evaporation, and plant uptake {cite:p}`seneviratne2010`. Changes in soil moisture can have substantial impacts on agricultural productivity, forest and the general ecosystem health..
 
 Soil moisture was identified as an essential climate variable (ECV) by the Global Climate Observing System (GCOS), due to its importance for understanding and monitoring changes in the Earth's climate system. Soil moisture estimation over large areas and long periods is challenging due to its spatial and temporal variability. However, remote sensing technologies have revolutionized the ability to measure soil moisture over large areas, which has facilitated numerous applications in several fields, including hydrology, agriculture, and climate modeling {cite:p}`entekhabi2010`.
 
