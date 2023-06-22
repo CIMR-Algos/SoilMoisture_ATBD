@@ -46,7 +46,7 @@ This relationship between soil moisture and soil dielectric constant (and conseq
 
 Prior to implementing the soil moisture retrieval, a preliminary step is to perform a water body correction to the brightness temperature data for cases where a significant percentage of the grid cells contain open water. As it is well known, brightness temperature values notably decrease when the water fraction increases {cite:p}`Ulaby2014`, leading to an overestimation of the retrieved SM values {cite:p}`ye2015` and inducing artificial seasonal cycles of VOD {cite:p}`bousquet2021`. It is therefore important to correct the CIMR brightness temperatures for the presence of water, to the extent feasible, prior to using them as inputs to the Level-2 Soil Moisture retrieval. This correction needs to be performed at Level1-B using the CIMR Hydrology Target mask ([RD-1] MRD-854), before the optimal interpolation or re-gridding process. The hydrology target mask will include information from both permanent and transitory water surfaces that shall be identified with the surface water seasonality information provided by the CIMR Surface Water Fraction (SWF) product as well as ancillary information.  
 
-The procedure to acquire soil moisture (SM) and vegetation optical depth (VOD, also denoted as τ) requires the minimization of the cost function F, as shown in {eq}`cost_fun`.
+The procedure to acquire soil moisture (SM) and vegetation optical depth (VOD, also denoted as τ) requires the minimization of the cost function F, as shown in {eq}`cost_fun`. The method to minimize F is the Trust Region Reflective (TRR) algorithm {cite:p}`branch1999subspace`.
 
 ```{math}
 :label: cost_fun
@@ -137,33 +137,7 @@ SubSubsection Text
 
 ##### Ancillary data
 
-
-| Parameter                               | Description                                         | Shape/Amount              |
-|-----------------------------------------|-----------------------------------------------------|---------------------------|
-| CIMR_SWF                     | CIMR Surface Water Fraction   |  $[xdim_{grid},ydim_{grid}]$ 
-| CIMR_LST                     | CIMR Land Surface Temperature  (from L1b TB CIMR Ka band)  |  $[xdim_{grid},ydim_{grid}]$   |  
-| LST                     | Land Surface Temperature  (from ECMWF)  |  $[xdim_{grid},ydim_{grid}]$   | 
-| soil_texture            | Clay fraction (from FAO)     |     $[xdim_{grid},ydim_{grid}]$ |
-| LCC          | IGBP Land Cover type Classification (from MODIS) |   $[17, xdim_{grid},ydim_{grid}]$ |
-| albedo     | Vegetation single scattering albedo (from SMOS-IC)  |         $[xdim_{grid},ydim_{grid}]$ |
-| H           | Surface roughness information (from SMOS-IC)   |    $[xdim_{grid},ydim_{grid}]$ |
-| DEM                  | Digital Elevation Model     | $[xdim_{grid},ydim_{grid}]$ |
-| hydrology_mask                     | Hydrology Target mask ([RD-1, MRD-854]) |  $[xdim_{grid},ydim_{grid}]$   |
-
-
-| ID | Parameter                   | Data Source                                                                                                      |
-|----|-----------------------------|------------------------------------------------------------------------------------------------------------------|
-| 1  | h Roughness Parameter (file)| pre-computed from SMOS-IC                                                                                        |
-| 2  | Permanent Ice              | MODIS                                                                                                            |
-| 3  | Mountainous Area [DEM]     | -                                                                                                                |
-| 4  | Land Cover Class           | MODIS IGBP                                                                                                       |
-| 5  | Soil Attributes (clay fraction) | FAO [replaced in R17 2020 data release by SoilGrid250m available at https://openlandmap.org]      
-
-| Single scattering albedo  | Measure of surface reflectance                             | -         |                                                         |
-| Soil roughness            | Indicator of the irregularity of the soil surface          | -         |                                                         |
-| Clay fraction             | Portion of the soil composed of clay particles             | 
-
-
+The CIMR H and albedo are static global maps computed as a ponderation of the values of the following table according with the fraction of MODIS IGBP land cover class within the CIMR pixel. 
 
 | ID | MODIS IGBP land classification | SMAP MTDCA | SMAP DCA | CIMR |
 |----|--------------------------------|------------|----------|------|
@@ -184,6 +158,9 @@ SubSubsection Text
 | 14 | Crop-land/Natural Vegetation Mosaics | 0.09 | 0.10     | 0.12 |
 | 15 | Snow and Ice                   | 0.11       | 0.00     | 0.10 |
 | 16 | Barren                         | 0.02       | 0.00     | 0.12 |
+
+A CIMR Hydrology Target mask, applied in Level-2 data processing, provides a ≤1 km resolution and covers both permanent and transitory inland water surfaces. The mask incorporates data from the MERIT Hydro {cite:p}`yamazaki2019merit` and the Global Lakes and Wetlands Database {cite:p}`lehner2004development`, and it will be updated up to four times annually to account for potential seasonal changes.
+
 
 <!--
 [MRD-854]
@@ -218,9 +195,7 @@ shown below.
 Note 5: Monthly masks could be considered, with possible updates during the mission.
 
     |
--->
-
--         |   
+--> 
 
 ##### Validation process
 
