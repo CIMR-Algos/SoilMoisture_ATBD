@@ -17,7 +17,7 @@ The retrieval of soil moisture from CIMR surface TB observations relies on a wid
 TB_p = T_s e_p exp{(-\tau_p \sec \theta)} + T_c (1 - \omega_p)[1 - \exp(-\tau_p \sec \theta)][1 + r_p \exp(-\tau_p \sec \theta)]
 ```
 
-Where the subscript p refers to polarization (V or H), Ts denotes the soil temperature and Tc stands for the canopy temperature, 𝜏_p represents the nadir vegetation opacity, 𝜔_p corresponds to the vegetation single scattering albedo, and rp is the soil reflectivity of a rough surface. The reflectivity is connected to the emissivity (ep) through the relation ep = (1 - rp). It must be noted that 𝜔_p will be treated here as an effective parameter {cite:p}`KURUM201366`.
+Where the subscript p refers to polarization (V or H), Ts denotes the soil temperature and Tc stands for the canopy temperature, 𝜏_p represents the nadir vegetation opacity, 𝜔_p corresponds to the vegetation single scattering albedo (ω), and rp is the soil reflectivity of a rough surface. The reflectivity is connected to the emissivity (ep) through the relation ep = (1 - rp). It must be noted that 𝜔_p will be treated here as an effective parameter {cite:p}`KURUM201366`.
 
 According to Beer's law, the overlying canopy layer's transmissivity or vegetation attenuation factor , γ, is given by γ = exp(-𝜏_p sec 𝜃). Equation {eq}`TB-tauomega` assumes that vegetation multiple scattering and reflection at the vegetation-air interface are negligible. 
 
@@ -37,9 +37,9 @@ r_V(\theta) = \left| \frac{\epsilon\cos\theta - \sqrt{\epsilon - \sin^2\theta}}{
 
 where θ represents the CIMR incidence angle, while ε denotes the soil layer's complex dielectric constant.
 
-It is important to note that an increase in soil moisture is accompanied by a proportional increase in the soil dielectric constant. For instance, liquid water has a dielectric constant of 80, while dry soil possesses a dielectric constant of 5. Furthermore, it should be acknowledged that a low dielectric constant is not uniquely indicative of dry soil conditions. Frozen soil, regardless of water content, exhibits a dielectric constant similar to that of dry soil. Consequently, a freeze/thaw flag is required to resolve this ambiguity. Since TB is proportional to emissivity for a given surface soil temperature, TB decreases as soil moisture increases. 
+It is important to note that an increase in soil moisture is accompanied by a proportional increase in the soil dielectric constant (ε). For instance, liquid water has a dielectric constant of 80, while dry soil possesses a dielectric constant of 5. Furthermore, it should be acknowledged that a low dielectric constant is not uniquely indicative of dry soil conditions. Frozen soil, regardless of water content, exhibits a dielectric constant similar to that of dry soil. Consequently, a freeze/thaw flag is required to resolve this ambiguity. Since TB is proportional to emissivity for a given surface soil temperature, TB decreases as soil moisture increases. In the CIMR algorithm, ε is expressed as a function of SM, soil clay fraction and soil temperature using the model developed by Mironov {cite:o}`mironov2012`.
 
-This relationship between soil moisture and soil dielectric constant (and consequently microwave emissivity and brightness temperature) establishes the basis for passive remote sensing of soil moisture. With CIMR observations of TB and information on T_s and T_c, H_R, and ω_p from ancillary sources, soil moisture (SM) and as explained in the "Retrieval Method" section. 
+This relationship between soil moisture and soil dielectric constant (and consequently microwave emissivity and brightness temperature) establishes the basis for passive remote sensing of soil moisture. With CIMR observations of TB and information on T_s and T_c, H_R, and ω_p from ancillary sources, soil moisture (SM) and vegetation optical depth (VOD) can be retrieved. The procedure for this retrieval is detailed in the following section, 'Retrieval Method'.
 
 
 ### Retrieval Method
@@ -108,19 +108,14 @@ L-band sharpening, TB_L_E
 
 ##### Analyze surface quality and surface conditions
 
-
 Ancillary data will be employed to help to determine whether masks are in effect for strong topography, urban, snow/ice, frozen soil. 
-
 
 <!---
 ##### Mathematical description
 
 SubSubsection Text
 -->
-
-
 ##### Input data
-
 
 The input data for the model consists of two primary parameters. The first is the Level 1b Brightness Temperature (L1b TB), which is observed by CIMR at L, C, and X-bands, covering both horizontal and vertical polarizations. This data is represented in a 2D array format with grid dimensions denoted as $[xdim_{grid}, ydim_{grid}]$. The second parameter, TB_err, represents the error associated with the Brightness Temperature. This error information is also organized in a grid of the same dimensions, $[xdim_{grid},ydim_{grid}]$. This information is detailed in [IODD](algorithm_input_output_data_definition.md).
 
@@ -137,30 +132,33 @@ SubSubsection Text
 
 ##### Ancillary data
 
-The CIMR H and albedo are static global maps computed as a ponderation of the values of the following table according with the fraction of MODIS IGBP land cover class within the CIMR pixel. 
+The static global maps for CIMR H and ω are computed through a weighted method. This approach takes into consideration the fraction of the MODIS IGBP land cover class that is contained within a given CIMR pixel. The data used for these computations are derived from the IGBP classification as identified in the study conducted by Fernandez-Moran {cite:p}`fernandez-moran2017b`. In Table {ref}`wandH`, different values of ω and H are listed according to land cover type. Based on these criteria, static global maps of ω and H have been produced as part of the ancillary dataset.
 
-| ID | MODIS IGBP land classification | SMAP MTDCA | SMAP DCA | CIMR |
-|----|--------------------------------|------------|----------|------|
-| 0  | Water Bodies                   | 0.00       | 0.00     | 0.00 |
-| 1  | Evergreen Needleleaf Forests   | 0.07       | 0.07     | 0.06 |
-| 2  | Evergreen Broadleaf Forests    | 0.08       | 0.07     | 0.06 |
-| 3  | Deciduous Needleleaf Forests   | 0.06       | 0.07     | 0.06 |
-| 4  | Deciduous Broadleaf Forests    | 0.07       | 0.07     | 0.06 |
-| 5  | Mixed Forests                  | 0.07       | 0.07     | 0.06 |
-| 6  | Closed Shrublands              | 0.08       | 0.08     | 0.10 |
-| 7  | Open Shrublands                | 0.06       | 0.07     | 0.08 |
-| 8  | Woody Savannas                 | 0.08       | 0.08     | 0.06 |
-| 9  | Savannas                       | 0.07       | 0.10     | 0.10 |
-| 10 | Grasslands                     | 0.06       | 0.07     | 0.10 |
-| 11 | Permanent Wetlands             | 0.16       | 0.10     | 0.10 |
-| 12 | Croplands - Average            | 0.10       | 0.06     | 0.12 |
-| 13 | Urban and Built-up Lands       | 0.08       | 0.08     | 0.10 |
-| 14 | Crop-land/Natural Vegetation Mosaics | 0.09 | 0.10     | 0.12 |
-| 15 | Snow and Ice                   | 0.11       | 0.00     | 0.10 |
-| 16 | Barren                         | 0.02       | 0.00     | 0.12 |
+```{table} Values of ω and H
+:name: wandH
+| ID | MODIS IGBP land classification | SMAP MTDCA ω | SMAP DCA ω | CIMR ω | SMOS-IC H | CIMR H |
+|----|--------------------------------|------------|----------|-------|------------|-----------------|
+| 1  | Evergreen Needleleaf Forests   | 0.07       | 0.07     | 0.06  | 0.30       | 0.40            |
+| 2  | Evergreen Broadleaf Forests    | 0.08       | 0.07     | 0.06  | 0.30       | 0.40            |
+| 3  | Deciduous Needleleaf Forests   | 0.06       | 0.07     | 0.06  | 0.30       | 0.40            |
+| 4  | Deciduous Broadleaf Forests    | 0.07       | 0.07     | 0.06  | 0.30       | 0.40            |
+| 5  | Mixed Forests                  | 0.07       | 0.07     | 0.06  | 0.30       | 0.40            |
+| 6  | Closed Shrublands              | 0.08       | 0.08     | 0.10  | 0.27       | 0.27            |
+| 7  | Open Shrublands                | 0.06       | 0.07     | 0.08  | 0.17       | 0.10            |
+| 8  | Woody Savannas                 | 0.08       | 0.08     | 0.06  | 0.30       | 0.40            |
+| 9  | Savannas                       | 0.07       | 0.10     | 0.10  | 0.23       | 0.23            |
+| 10 | Grasslands                     | 0.06       | 0.07     | 0.10  | 0.12       | 0.50            |
+| 11 | Permanent Wetlands             | 0.16       | 0.10     | 0.10  | 0.19       | 0.19            |
+| 12 | Croplands - Average            | 0.10       | 0.06     | 0.12  | 0.17       | 0.40           |
+| 13 | Urban and Built-up Lands       | 0.08       | 0.08     | 0.10  | 0.21       | 0.21           |
+| 14 | Crop-land/Natural Vegetation Mosaics | 0.09 | 0.10 | 0.12 | 0.22 | 0.50   |
+| 15 | Snow and Ice                   | 0.11       | 0.00     | 0.10  | 0.12       | 0.12            |
+| 16 | Barren                         | 0.02       | 0.00     | 0.12  | 0.02       | 0.10            |
+```
 
-A CIMR Hydrology Target mask, applied in Level-2 data processing, provides a ≤1 km resolution and covers both permanent and transitory inland water surfaces. The mask incorporates data from the MERIT Hydro {cite:p}`yamazaki2019merit` and the Global Lakes and Wetlands Database {cite:p}`lehner2004development`, and it will be updated up to four times annually to account for potential seasonal changes.
+Furthermore, a CIMR Hydrology Target mask, applied in Level-2 data processing, provides a ≤1 km resolution and covers both permanent and transitory inland water surfaces. The mask incorporates data from the MERIT Hydro {cite:p}`yamazaki2019merit` and the Global Lakes and Wetlands Database {cite:p}`lehner2004development`, and it will be updated up to four times annually to account for potential seasonal changes. In the ancillary dataset, this information will be presented in the form of the Surface Water Fraction (SWF) data.
 
+The rest of datasets that complement the ancillary information are the clay fraction (from FAO), the IGBP Land Cover type Classification (from MODIS) and the Digital Elevation Model obtained from the Shuttle Radar Topography Mission (SRTM) {cite:p}`jarvis2006,mialon2008`.
 
 <!--
 [MRD-854]

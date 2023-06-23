@@ -54,6 +54,12 @@ SMAP
 SMOS
   Soil Moisture and Ocean Salinity
 
+SRTM
+  Shuttle Radar Topography Mission
+
+SWF
+  Surface Water Fraction
+
 TB
   Brightness Temperature
 

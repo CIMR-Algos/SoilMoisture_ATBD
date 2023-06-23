@@ -17,7 +17,7 @@ The retrieval of soil moisture from CIMR surface TB observations relies on a wid
 TB_p = T_s e_p exp{(-\tau_p \sec \theta)} + T_c (1 - \omega_p)[1 - \exp(-\tau_p \sec \theta)][1 + r_p \exp(-\tau_p \sec \theta)]
 ```
 
-Where the subscript p refers to polarization (V or H), Ts denotes the soil temperature and Tc stands for the canopy temperature, 𝜏_p represents the nadir vegetation opacity, 𝜔_p corresponds to the vegetation single scattering albedo, and rp is the soil reflectivity of a rough surface. The reflectivity is connected to the emissivity (ep) through the relation ep = (1 - rp). It must be noted that 𝜔_p will be treated here as an effective parameter {cite:p}`KURUM201366`.
+Where the subscript p refers to polarization (V or H), Ts denotes the soil temperature and Tc stands for the canopy temperature, 𝜏_p represents the nadir vegetation opacity, 𝜔_p corresponds to the vegetation single scattering albedo (ω), and rp is the soil reflectivity of a rough surface. The reflectivity is connected to the emissivity (ep) through the relation ep = (1 - rp). It must be noted that 𝜔_p will be treated here as an effective parameter {cite:p}`KURUM201366`.
 
 According to Beer's law, the overlying canopy layer's transmissivity or vegetation attenuation factor , γ, is given by γ = exp(-𝜏_p sec 𝜃). Equation {eq}`TB-tauomega` assumes that vegetation multiple scattering and reflection at the vegetation-air interface are negligible. 
 
@@ -37,16 +37,16 @@ r_V(\theta) = \left| \frac{\epsilon\cos\theta - \sqrt{\epsilon - \sin^2\theta}}{
 
 where θ represents the CIMR incidence angle, while ε denotes the soil layer's complex dielectric constant.
 
-It is important to note that an increase in soil moisture is accompanied by a proportional increase in the soil dielectric constant. For instance, liquid water has a dielectric constant of 80, while dry soil possesses a dielectric constant of 5. Furthermore, it should be acknowledged that a low dielectric constant is not uniquely indicative of dry soil conditions. Frozen soil, regardless of water content, exhibits a dielectric constant similar to that of dry soil. Consequently, a freeze/thaw flag is required to resolve this ambiguity. Since TB is proportional to emissivity for a given surface soil temperature, TB decreases as soil moisture increases. 
+It is important to note that an increase in soil moisture is accompanied by a proportional increase in the soil dielectric constant (ε). For instance, liquid water has a dielectric constant of 80, while dry soil possesses a dielectric constant of 5. Furthermore, it should be acknowledged that a low dielectric constant is not uniquely indicative of dry soil conditions. Frozen soil, regardless of water content, exhibits a dielectric constant similar to that of dry soil. Consequently, a freeze/thaw flag is required to resolve this ambiguity. Since TB is proportional to emissivity for a given surface soil temperature, TB decreases as soil moisture increases. In the CIMR algorithm, ε is expressed as a function of SM, soil clay fraction and soil temperature using the model developed by Mironov {cite:o}`mironov2012`.
 
-This relationship between soil moisture and soil dielectric constant (and consequently microwave emissivity and brightness temperature) establishes the basis for passive remote sensing of soil moisture. With CIMR observations of TB and information on T_s and T_c, H_R, and ω_p from ancillary sources, soil moisture (SM) and as explained in the "Retrieval Method" section. 
+This relationship between soil moisture and soil dielectric constant (and consequently microwave emissivity and brightness temperature) establishes the basis for passive remote sensing of soil moisture. With CIMR observations of TB and information on T_s and T_c, H_R, and ω_p from ancillary sources, soil moisture (SM) and vegetation optical depth (VOD) can be retrieved. The procedure for this retrieval is detailed in the following section, 'Retrieval Method'.
 
 
 ### Retrieval Method
 
 Prior to implementing the soil moisture retrieval, a preliminary step is to perform a water body correction to the brightness temperature data for cases where a significant percentage of the grid cells contain open water. As it is well known, brightness temperature values notably decrease when the water fraction increases {cite:p}`Ulaby2014`, leading to an overestimation of the retrieved SM values {cite:p}`ye2015` and inducing artificial seasonal cycles of VOD {cite:p}`bousquet2021`. It is therefore important to correct the CIMR brightness temperatures for the presence of water, to the extent feasible, prior to using them as inputs to the Level-2 Soil Moisture retrieval. This correction needs to be performed at Level1-B using the CIMR Hydrology Target mask ([RD-1] MRD-854), before the optimal interpolation or re-gridding process. The hydrology target mask will include information from both permanent and transitory water surfaces that shall be identified with the surface water seasonality information provided by the CIMR Surface Water Fraction (SWF) product as well as ancillary information.  
 
-The procedure to acquire soil moisture (SM) and vegetation optical depth (VOD, also denoted as τ) requires the minimization of the cost function F, as shown in {eq}`cost_fun`.
+The procedure to acquire soil moisture (SM) and vegetation optical depth (VOD, also denoted as τ) requires the minimization of the cost function F, as shown in {eq}`cost_fun`. The method to minimize F is the Trust Region Reflective (TRR) algorithm {cite:p}`branch1999subspace`.
 
 ```{math}
 :label: cost_fun
@@ -76,23 +76,13 @@ Conceptual flow of Level-1b resampling to exploit CIMR oversampling and nested s
 
 ### Algorithm Assumptions and Simplifications
 
-CIMR algorithm includes some simplifications that are detailed in the following lines:
+The CIMR algorithm incorporates several simplifications, which are detailed below.
 
-For both satellite ascending and descending passes, it is assumed that the air, vegetation, and near-surface soil are in thermal equilibrium, given that the canopy temperature (Tc) can be approximated to the soil temperature (Ts) {cite:p}`Hornbuckle2005,fernandez-moran2017b`. Under this condition, we can represent both temperatures with a single effective temperature (Teff). This temperature is obtained from the Ka band using the formulation of Holmes that relies on the Ka-band {cite:p}`holmes2009`, although other approaches will be considered.
+For both ascending and descending satellite passes, it is assumed that the air, vegetation, and near-surface soil are in thermal equilibrium, given that the canopy temperature (Tc) can be approximated to the soil temperature (Ts) {cite:p}`Hornbuckle2005,fernandez-moran2017b`. In this context, we can represent both temperatures with a single effective temperature (Teff). This temperature is derived from the Ka band using the formulation of Holmes, which relies on the Ka-band {cite:p}`holmes2009`, although alternative approaches may be considered.
 
-In terms of soil roughness parameterization, the formulation followed was simplified to account for the soil roughness with a single parameter, H, derived from the full formulation proposed by Wang and Cloudhury {cite:p}`wang1981remote`. For simplicity, both soil roughness and vegetation scattering albedo are considered time invariant, although their value changes at a global scale.
+Regarding soil roughness parameterization, the formulation used is simplified to represent soil roughness with a single parameter, H, derived from the full formulation proposed by Wang and Choudhury {cite:p}`wang1981remote`. For simplification purposes, both soil roughness and vegetation scattering albedo are considered time invariant, despite their values varying on a global scale.
 
-A zeroth-order radiative transfer model, also known as the tau-omega model, is used by CIMR to estimate soil moisture. This model is a zero-order solution of the microwave radiative transfer equations, which neglects multiple reflections between vegetation canopy. Some studies has attempted to address this limitation by using higher-order radiative transfer models, as this is the case of the Two Stream Emission Model (2S-EM) {cite:p}`schwank2018` or the approach proposed by Feldman, that proposes to quantify higher order scattering through the First order scattering model (First order RTM) by introducing an additional term for the multiple scattering (Ω1) along with zeroth order scattering term (ω) using a ray-tracing method {cite:p}`feldman2018`.
-
-
-The CIMR algorithm includes some simplifications that are detailed in the following lines.
-
-For both satellite ascending and descending passes, it is assumed that the air, vegetation, and near-surface soil are in thermal equilibrium, given that the canopy temperature (Tc) can be approximated to the soil temperature (Ts) {cite:p}Hornbuckle2005,fernandez-moran2017b. Under this condition, we can represent both temperatures with a single effective temperature (Teff). This temperature is obtained from the Ka band using the formulation of Holmes that relies on the Ka-band {cite:p}holmes2009, although other approaches will be considered.
-
-In terms of soil roughness parameterization, the formulation followed is simplified to account for the soil roughness with a single parameter, H, derived from the full formulation proposed by Wang and Choudhury {cite:p}wang1981remote. For simplicity, both soil roughness and vegetation scattering albedo are considered time invariant, although their value changes on a global scale.
-
-A zeroth-order radiative transfer model, also known as the tau-omega model, is used by CIMR to estimate soil moisture. This model is a zero-order solution of the microwave radiative transfer equations, which neglects multiple reflections within the vegetation canopy. Some studies have attempted to address this limitation by using higher-order radiative transfer models, as is the case with the Two Stream Emission Model (2S-EM) {cite:p}schwank2018 or the approach proposed by Feldman, which proposes to quantify higher order scattering through the First Order Scattering Model (First Order RTM) by introducing an additional term for the multiple scattering (Ω1) along with the zeroth order scattering term (ω) using a ray-tracing method {cite:p}feldman2018.
-
+A zeroth-order radiative transfer model, also known as the tau-omega model, is utilized by CIMR to estimate soil moisture. This model is a zero-order solution of the microwave radiative transfer equations, which neglects multiple reflections within the vegetation canopy. Some studies have attempted to address this limitation by utilizing higher-order radiative transfer models, such as the Two Stream Emission Model (2S-EM) {cite:p}`schwank2018`, or the approach proposed by Feldman {cite:p}`feldman2018`. Feldman's approach proposes to quantify higher order scattering through the First Order Scattering Model (First Order RTM), introducing an additional term for multiple scattering (Ω1) alongside the zeroth order scattering term (ω), using a ray-tracing method.
 
 ### Level-2 end to end algorithm functional flow diagram
 
@@ -118,19 +108,14 @@ L-band sharpening, TB_L_E
 
 ##### Analyze surface quality and surface conditions
 
-
 Ancillary data will be employed to help to determine whether masks are in effect for strong topography, urban, snow/ice, frozen soil. 
-
 
 <!---
 ##### Mathematical description
 
 SubSubsection Text
 -->
-
-
 ##### Input data
-
 
 The input data for the model consists of two primary parameters. The first is the Level 1b Brightness Temperature (L1b TB), which is observed by CIMR at L, C, and X-bands, covering both horizontal and vertical polarizations. This data is represented in a 2D array format with grid dimensions denoted as $[xdim_{grid}, ydim_{grid}]$. The second parameter, TB_err, represents the error associated with the Brightness Temperature. This error information is also organized in a grid of the same dimensions, $[xdim_{grid},ydim_{grid}]$. This information is detailed in [IODD](algorithm_input_output_data_definition.md).
 
@@ -147,53 +132,33 @@ SubSubsection Text
 
 ##### Ancillary data
 
+The static global maps for CIMR H and ω are computed through a weighted method. This approach takes into consideration the fraction of the MODIS IGBP land cover class that is contained within a given CIMR pixel. The data used for these computations are derived from the IGBP classification as identified in the study conducted by Fernandez-Moran {cite:p}`fernandez-moran2017b`. In Table {ref}`wandH`, different values of ω and H are listed according to land cover type. Based on these criteria, static global maps of ω and H have been produced as part of the ancillary dataset.
 
-| Parameter                               | Description                                         | Shape/Amount              |
-|-----------------------------------------|-----------------------------------------------------|---------------------------|
-| CIMR_SWF                     | CIMR Surface Water Fraction   |  $[xdim_{grid},ydim_{grid}]$ 
-| CIMR_LST                     | CIMR Land Surface Temperature  (from L1b TB CIMR Ka band)  |  $[xdim_{grid},ydim_{grid}]$   |  
-| LST                     | Land Surface Temperature  (from ECMWF)  |  $[xdim_{grid},ydim_{grid}]$   | 
-| soil_texture            | Clay fraction (from FAO)     |     $[xdim_{grid},ydim_{grid}]$ |
-| LCC          | IGBP Land Cover type Classification (from MODIS) |   $[17, xdim_{grid},ydim_{grid}]$ |
-| albedo     | Vegetation single scattering albedo (from SMOS-IC)  |         $[xdim_{grid},ydim_{grid}]$ |
-| H           | Surface roughness information (from SMOS-IC)   |    $[xdim_{grid},ydim_{grid}]$ |
-| DEM                  | Digital Elevation Model     | $[xdim_{grid},ydim_{grid}]$ |
-| hydrology_mask                     | Hydrology Target mask ([RD-1, MRD-854]) |  $[xdim_{grid},ydim_{grid}]$   |
+```{table} Values of ω and H
+:name: wandH
+| ID | MODIS IGBP land classification | SMAP MTDCA ω | SMAP DCA ω | CIMR ω | SMOS-IC H | CIMR H |
+|----|--------------------------------|------------|----------|-------|------------|-----------------|
+| 1  | Evergreen Needleleaf Forests   | 0.07       | 0.07     | 0.06  | 0.30       | 0.40            |
+| 2  | Evergreen Broadleaf Forests    | 0.08       | 0.07     | 0.06  | 0.30       | 0.40            |
+| 3  | Deciduous Needleleaf Forests   | 0.06       | 0.07     | 0.06  | 0.30       | 0.40            |
+| 4  | Deciduous Broadleaf Forests    | 0.07       | 0.07     | 0.06  | 0.30       | 0.40            |
+| 5  | Mixed Forests                  | 0.07       | 0.07     | 0.06  | 0.30       | 0.40            |
+| 6  | Closed Shrublands              | 0.08       | 0.08     | 0.10  | 0.27       | 0.27            |
+| 7  | Open Shrublands                | 0.06       | 0.07     | 0.08  | 0.17       | 0.10            |
+| 8  | Woody Savannas                 | 0.08       | 0.08     | 0.06  | 0.30       | 0.40            |
+| 9  | Savannas                       | 0.07       | 0.10     | 0.10  | 0.23       | 0.23            |
+| 10 | Grasslands                     | 0.06       | 0.07     | 0.10  | 0.12       | 0.50            |
+| 11 | Permanent Wetlands             | 0.16       | 0.10     | 0.10  | 0.19       | 0.19            |
+| 12 | Croplands - Average            | 0.10       | 0.06     | 0.12  | 0.17       | 0.40           |
+| 13 | Urban and Built-up Lands       | 0.08       | 0.08     | 0.10  | 0.21       | 0.21           |
+| 14 | Crop-land/Natural Vegetation Mosaics | 0.09 | 0.10 | 0.12 | 0.22 | 0.50   |
+| 15 | Snow and Ice                   | 0.11       | 0.00     | 0.10  | 0.12       | 0.12            |
+| 16 | Barren                         | 0.02       | 0.00     | 0.12  | 0.02       | 0.10            |
+```
 
+Furthermore, a CIMR Hydrology Target mask, applied in Level-2 data processing, provides a ≤1 km resolution and covers both permanent and transitory inland water surfaces. The mask incorporates data from the MERIT Hydro {cite:p}`yamazaki2019merit` and the Global Lakes and Wetlands Database {cite:p}`lehner2004development`, and it will be updated up to four times annually to account for potential seasonal changes. In the ancillary dataset, this information will be presented in the form of the Surface Water Fraction (SWF) data.
 
-| ID | Parameter                   | Data Source                                                                                                      |
-|----|-----------------------------|------------------------------------------------------------------------------------------------------------------|
-| 1  | h Roughness Parameter (file)| pre-computed from SMOS-IC                                                                                        |
-| 2  | Permanent Ice              | MODIS                                                                                                            |
-| 3  | Mountainous Area [DEM]     | -                                                                                                                |
-| 4  | Land Cover Class           | MODIS IGBP                                                                                                       |
-| 5  | Soil Attributes (clay fraction) | FAO [replaced in R17 2020 data release by SoilGrid250m available at https://openlandmap.org]      
-
-| Single scattering albedo  | Measure of surface reflectance                             | -         |                                                         |
-| Soil roughness            | Indicator of the irregularity of the soil surface          | -         |                                                         |
-| Clay fraction             | Portion of the soil composed of clay particles             | 
-
-
-
-| ID | MODIS IGBP land classification | SMAP MTDCA | SMAP DCA | CIMR |
-|----|--------------------------------|------------|----------|------|
-| 0  | Water Bodies                   | 0.00       | 0.00     | 0.00 |
-| 1  | Evergreen Needleleaf Forests   | 0.07       | 0.07     | 0.06 |
-| 2  | Evergreen Broadleaf Forests    | 0.08       | 0.07     | 0.06 |
-| 3  | Deciduous Needleleaf Forests   | 0.06       | 0.07     | 0.06 |
-| 4  | Deciduous Broadleaf Forests    | 0.07       | 0.07     | 0.06 |
-| 5  | Mixed Forests                  | 0.07       | 0.07     | 0.06 |
-| 6  | Closed Shrublands              | 0.08       | 0.08     | 0.10 |
-| 7  | Open Shrublands                | 0.06       | 0.07     | 0.08 |
-| 8  | Woody Savannas                 | 0.08       | 0.08     | 0.06 |
-| 9  | Savannas                       | 0.07       | 0.10     | 0.10 |
-| 10 | Grasslands                     | 0.06       | 0.07     | 0.10 |
-| 11 | Permanent Wetlands             | 0.16       | 0.10     | 0.10 |
-| 12 | Croplands - Average            | 0.10       | 0.06     | 0.12 |
-| 13 | Urban and Built-up Lands       | 0.08       | 0.08     | 0.10 |
-| 14 | Crop-land/Natural Vegetation Mosaics | 0.09 | 0.10     | 0.12 |
-| 15 | Snow and Ice                   | 0.11       | 0.00     | 0.10 |
-| 16 | Barren                         | 0.02       | 0.00     | 0.12 |
+The rest of datasets that complement the ancillary information are the clay fraction (from FAO), the IGBP Land Cover type Classification (from MODIS) and the Digital Elevation Model obtained from the Shuttle Radar Topography Mission (SRTM) {cite:p}`jarvis2006,mialon2008`.
 
 <!--
 [MRD-854]
@@ -228,9 +193,7 @@ shown below.
 Note 5: Monthly masks could be considered, with possible updates during the mission.
 
     |
--->
-
--         |   
+--> 
 
 ##### Validation process
 

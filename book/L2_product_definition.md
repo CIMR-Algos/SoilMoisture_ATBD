@@ -1,5 +1,7 @@
 # Level-2 product definition
 
+```{table} L2-product
+:name: L2product
 | Parameter                 | Description                                                | Units     | Dimensions                                              |
 |---------------------------|------------------------------------------------------------|-----------|---------------------------------------------------------|
 | lon | Longitude. range: [0$^{\circ}$, 360$^{\circ}$] | *degrees East* | $[xdim_{grid},ydim_{grid}]$ |
@@ -18,3 +20,4 @@
 | TB_L_E_RMSE          | Root Mean Squared Error between enhanced TB and modeled TB                      | K      | $[xdim_{grid},ydim_{grid}]$ |
 | scene_flags             | RFI, proximity to water body, urban, ice/snow, frozen soil, precipitation, medium and strong topographic effects.                      | *8-bits flag*      | $[xdim_{grid},ydim_{grid}]$ |
 | status_flag             | Product quality flag                      | n/a      | $[xdim_{grid},ydim_{grid}]$ |
+```

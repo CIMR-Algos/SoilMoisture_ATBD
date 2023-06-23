@@ -3,13 +3,18 @@
 
 ### Input data
 
+```{table} Input Data
+:name: InpData
 | Parameter                               | Description | Shape/Amount                                                                        |
 |-----------------------------------------|------|-------------------------------------------------------------------------------------|
 | L1b TB                  | L1b Brightness Temperature at L, C and X-bands (both H and V polarization)   |  $[xdim_{grid},ydim_{grid}]$                                                                                   |
 | TB_err                              | Brightness Temperature error    | $[xdim_{grid},ydim_{grid}]$ |
+```
 
 ### Output data
 
+```{table} Output Data
+:name: OutData
 | Parameter                 | Description                                                | Units     | Dimensions                                              |
 |---------------------------|------------------------------------------------------------|-----------|---------------------------------------------------------|
 | lon | Longitude. range: [0$^{\circ}$, 360$^{\circ}$] | *degrees East* | $[xdim_{grid},ydim_{grid}]$ |
@@ -28,9 +33,12 @@
 | TB_L_E_RMSE          | Root Mean Squared Error between enhanced TB and modeled TB                      | K      | $[xdim_{grid},ydim_{grid}]$ |
 | scene_flags             | RFI, proximity to water body, urban, ice/snow, frozen soil, precipitation, medium and strong topographic effects.                      | *8-bits flag*      | $[xdim_{grid},ydim_{grid}]$ |
 | status_flag             | Product quality flag                      | n/a      | $[xdim_{grid},ydim_{grid}]$ |
-                                     
+```
+
 ### Ancillary data
 
+```{table} Ancillary data
+:name: AncData
 | Parameter                               | Description                                         | Shape/Amount              |
 |-----------------------------------------|-----------------------------------------------------|---------------------------|
 | CIMR_SWF                     | CIMR Surface Water Fraction   |  $[xdim_{grid},ydim_{grid}]$ 
@@ -42,4 +50,4 @@
 | H           | Surface roughness information (from SMOS-IC)   |    $[xdim_{grid},ydim_{grid}]$ |
 | DEM                  | Digital Elevation Model     | $[xdim_{grid},ydim_{grid}]$ |
 | hydrology_mask                     | Hydrology Target mask ([RD-1, MRD-854]) |  $[xdim_{grid},ydim_{grid}]$   |
-
+```
