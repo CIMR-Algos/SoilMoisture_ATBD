@@ -37,7 +37,7 @@ r_V(\theta) = \left| \frac{\epsilon\cos\theta - \sqrt{\epsilon - \sin^2\theta}}{
 
 where θ represents the CIMR incidence angle, while ε denotes the soil layer's complex dielectric constant.
 
-It is important to note that an increase in soil moisture is accompanied by a proportional increase in the soil dielectric constant (ε). For instance, liquid water has a dielectric constant of 80, while dry soil possesses a dielectric constant of 5. Furthermore, it should be acknowledged that a low dielectric constant is not uniquely indicative of dry soil conditions. Frozen soil, regardless of water content, exhibits a dielectric constant similar to that of dry soil. Consequently, a freeze/thaw flag is required to resolve this ambiguity. Since TB is proportional to emissivity for a given surface soil temperature, TB decreases as soil moisture increases. In the CIMR algorithm, ε is expressed as a function of SM, soil clay fraction and soil temperature using the model developed by Mironov {cite:o}`mironov2012`.
+It is important to note that an increase in soil moisture is accompanied by a proportional increase in the soil dielectric constant (ε). For instance, liquid water has a dielectric constant of 80, while dry soil possesses a dielectric constant of 5. Furthermore, it should be acknowledged that a low dielectric constant is not uniquely indicative of dry soil conditions. Frozen soil, regardless of water content, exhibits a dielectric constant similar to that of dry soil. Consequently, a freeze/thaw flag is required to resolve this ambiguity. Since TB is proportional to emissivity for a given surface soil temperature, TB decreases as soil moisture increases. In the CIMR algorithm, ε is expressed as a function of SM, soil clay fraction and soil temperature using the model developed by Mironov {cite:p}`mironov2012`.
 
 This relationship between soil moisture and soil dielectric constant (and consequently microwave emissivity and brightness temperature) establishes the basis for passive remote sensing of soil moisture. With CIMR observations of TB and information on T_s and T_c, H_R, and ω_p from ancillary sources, soil moisture (SM) and vegetation optical depth (VOD) can be retrieved. The procedure for this retrieval is detailed in the following section, 'Retrieval Method'.
 
@@ -117,12 +117,12 @@ SubSubsection Text
 -->
 ##### Input data
 
-The input data for the model consists of two primary parameters. The first is the Level 1b Brightness Temperature (L1b TB), which is observed by CIMR at L, C, and X-bands, covering both horizontal and vertical polarizations. This data is represented in a 2D array format with grid dimensions denoted as $[xdim_{grid}, ydim_{grid}]$. The second parameter, TB_err, represents the error associated with the Brightness Temperature. This error information is also organized in a grid of the same dimensions, $[xdim_{grid},ydim_{grid}]$. This information is detailed in [IODD](algorithm_input_output_data_definition.md).
+The input data for the model consists of two primary parameters. The first is the Level 1b Brightness Temperature (L1b TB), which is observed by CIMR at L, C, and X-bands, covering both horizontal and vertical polarizations. This data represents a full swath or swath section with dimensions *(Nscans, Npos)* in a 2D array format. The second parameter, TB_err, represents the error associated with the Brightness Temperature. This error information is also organized with the same dimensions, *(Nscans, Npos)*. This information is showed in [IODD](algorithm_input_output_data_definition.md).
 
 
 ##### Output data
 
-The model outputs include key parameters such as soil moisture and vegetation optical depth at a coarse and an enhanced resolution. Additional information like brightness temperature, geographical data, albedo, and various flags supplement these outputs. More details can be found in [IODD](algorithm_input_output_data_definition.md).
+The model outputs include key parameters such as soil moisture and vegetation optical depth at a coarse and an enhanced resolution. The output data is presented in a 9 km EASE 2.0 grid. Additional information like brightness temperature, geographical data, albedo, and various flags supplement these outputs. More details can be found in [IODD](algorithm_input_output_data_definition.md).
 
 <!--
 ##### Auxiliary data
@@ -156,9 +156,12 @@ The static global maps for CIMR H and ω are computed through a weighted method.
 | 16 | Barren                         | 0.02       | 0.00     | 0.12  | 0.02       | 0.10            |
 ```
 
-Furthermore, a CIMR Hydrology Target mask, applied in Level-2 data processing, provides a ≤1 km resolution and covers both permanent and transitory inland water surfaces. The mask incorporates data from the MERIT Hydro {cite:p}`yamazaki2019merit` and the Global Lakes and Wetlands Database {cite:p}`lehner2004development`, and it will be updated up to four times annually to account for potential seasonal changes. In the ancillary dataset, this information will be presented in the form of the Surface Water Fraction (SWF) data.
+Furthermore, a CIMR Hydrology Target mask, applied in Level-2 data processing, provides a ≤1 km resolution and covers both permanent and transitory inland water surfaces. The mask incorporates data from the MERIT Hydro {cite:p}`yamazaki2019merit` and the Global Lakes and Wetlands Database {cite:p}`lehner2004development`, and it will be updated up to four times annually to account for potential seasonal changes. Its calculation involves a previous estimation of the Surface Water Fraction (SWF) data.
+
+Moreover, the scene flags incorporate information about RFI, proximity to water body, urban, ice/snow, frozen soil, precipitation, medium and strong topographic effects.
 
 The rest of datasets that complement the ancillary information are the clay fraction (from FAO), the IGBP Land Cover type Classification (from MODIS) and the Digital Elevation Model obtained from the Shuttle Radar Topography Mission (SRTM) {cite:p}`jarvis2006,mialon2008`.
+
 
 <!--
 [MRD-854]
