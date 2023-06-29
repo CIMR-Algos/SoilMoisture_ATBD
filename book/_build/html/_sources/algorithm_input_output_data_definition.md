@@ -15,7 +15,6 @@
 
 ```{table} Output Data
 :name: OutData
-:name: OutData
 | Parameter                 | Description                                                | Units     | Dimensions                      |
 |---------------------------|------------------------------------------------------------|-----------|---------------------------------|
 | lon | Longitude [0$^{\circ}$, 360$^{\circ}$] | *deg East* | *(xdim$_{grid}$, ydim$_{grid}$)* |
