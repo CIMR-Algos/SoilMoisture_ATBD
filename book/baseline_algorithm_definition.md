@@ -44,7 +44,7 @@ This relationship between soil moisture and soil dielectric constant (and conseq
 
 ### Retrieval Method
 
-Prior to implementing the soil moisture retrieval, a preliminary step is to perform a water body correction to the brightness temperature data for cases where a significant percentage of the grid cells contain open water. As it is well known, brightness temperature values notably decrease when the water fraction increases {cite:p}`Ulaby2014`, leading to an overestimation of the retrieved SM values {cite:p}`ye2015` and inducing artificial seasonal cycles of VOD {cite:p}`bousquet2021`. It is therefore important to correct the CIMR brightness temperatures for the presence of water, to the extent feasible, prior to using them as inputs to the Level-2 Soil Moisture retrieval. This correction needs to be performed at Level1-B using the CIMR Hydrology Target mask ([RD-1] MRD-854), before the optimal interpolation or re-gridding process. The hydrology target mask will include information from both permanent and transitory water surfaces that shall be identified with the surface water seasonality information provided by the CIMR Surface Water Fraction (SWF) product as well as ancillary information.  
+Prior to implementing the soil moisture retrieval, a preliminary step is to perform a water body correction to the brightness temperature data for cases where a significant percentage of the grid cells contain open water. As it is well known, brightness temperature values notably decrease when the water fraction increases {cite:p}`Ulaby2014`, leading to an overestimation of the retrieved SM values {cite:p}`ye2015` and inducing artificial seasonal cycles of VOD {cite:p}`bousquet2021`. It is therefore important to correct the CIMR brightness temperatures for the presence of water, to the extent feasible, prior to using them as inputs to the Level-2 Soil Moisture retrieval. This correction needs to be performed using the CIMR Hydrology Target mask ([RD-1] MRD-854), as part of the optimal interpolation or re-sampling process (in the CIMR RGB toolbox). The hydrology target mask will include information from both permanent and transitory water surfaces that shall be identified with the surface water seasonality information provided by the CIMR Surface Water Fraction (SWF) product as well as ancillary information.  
 
 The procedure to acquire soil moisture (SM) and vegetation optical depth (VOD, also denoted as τ) requires the minimization of the cost function F, as shown in {eq}`cost_fun`. The method to minimize F is the Trust Region Reflective (TRR) algorithm {cite:p}`branch1999subspace`.
 
@@ -64,7 +64,15 @@ An initial constant value of $0.2 m^3/m^3$ is assumed for SM and $\sigma(SM)$, w
 
 ### CIMR Level-1b re-sampling approach
 
-The CIMR Level-2 Soil Moisture retrieval algorithm will provide two soil moisture products: the first based on the inversion of L-band only TBs at its native resolution (~60 km, Hydroclimatological), the second one based on the inversion of L-band at an enhanced spatial resolution (~10 to 25 km Hydrometeorological). The enhanced L-band targets a 15-km spatial resolution and is based on sharpening techniques that exploit the C-band and X-band channels (Zhang et al., in prep. 2023). Figure {numref}`resampling` illustrates the Level-1b resampling approach starting with a Backus-Gilbert or Scatterometer Image Reconstruction analysis applied at each frequency, then the application of the sharpening algorithm to combine 15 km C/X-bands and 60 km L-band to estimate equivalent 15 km L-band. The output would be a Level-1c product that is then used as input in the Level-2 Processor. Both Level-1c and Level-2 products are planned to be projected on an EASE grid with a kernel of 3 km (then multiples thereof), i.e. Ka/Ku-bands at 3 Km, C/X-bands at 9 km, L-band at 36km. The benefit of using swath-based projections should be evaluated with dedicated experiments. 
+The CIMR Level-2 Soil Moisture retrieval algorithm will provide two soil moisture products: the first based on the inversion of L-band only TBs at its native resolution (~60 km, Hydroclimatological), the second one based on the inversion of L-band at an enhanced spatial resolution (~10 to 25 km Hydrometeorological). The enhanced L-band targets an effective mean spatial resolution of 15-km and is based on sharpening techniques that exploit the C-band and X-band channels (Zhang et al., in prep. 2023). Figure {numref}`resampling` illustrates the Level-1b resampling approach starting with a Backus-Gilbert or Scatterometer Image Reconstruction analysis applied at L-band with footprints matched to the C-band channel in swath geometry (at CIMR RGB Toolbox), then the application of the sharpening algorithm to combine 15 km C/X-bands and 60 km L-band to estimate equivalent 15 km L-band. Inputs to Level-2 Processor are initially being planned to be provided in swath geometry although the convenience of using gridded products (including generation of Level-1c) needs to be assessed at a later phase during the project. 
+
+Level-2 products are planned to be projected on a 9 km EASE2 grid with an effective spatial resolution of ~60 km (L-band only) and ~15 km (after sharpening using C/X bands). The CIMR radiometer is conically scanning and its high degree of oversampling provides flexibility in resampling the data and support the use of a finer grid (posting resolution) than the TB effective resolution {cite:p}`Long2023`. At L-band, CIMR TB measurements are collected with an along-scan spacing of approximately 8 km, while there is an overlap of 29 % in the along-track direction (no spacing). The proposed 9 km gridding resolution is selected to preserve as much information as possible. 
+
+Note the use of the same swath geometry (L-band resampled to C-band swath geometry) for TB_L and TB_L_E input data and gridding resolution of output products (SM, VOD, SM_E, VOD_E) is proposed to facilitate their direct comparison and algorithm development at this stage of the project. The benefit of using an EASE2 grid with a kernel of 3 km (then multiples thereof), i.e. products based on Ka/Ku-bands at 3 Km, C/X-bands at 9 km, L-band at 36km, should be evaluated with dedicated experiments.    
+
+<!--
+Level-2 products are planned to be projected on an EASE grid with a kernel of 3 km (then multiples thereof), i.e. Ka/Ku-bands at 3 Km, C/X-bands at 9 km, L-band at 36km. The benefit of using swath-based projections should be evaluated with dedicated experiments.
+-->
 
 ```{figure} /images/Level1b_resampling.png
 --- 
@@ -78,7 +86,7 @@ Conceptual flow of Level-1b resampling to exploit CIMR oversampling and nested s
 
 The CIMR algorithm incorporates several simplifications, which are detailed below.
 
-For both ascending and descending satellite passes, it is assumed that the air, vegetation, and near-surface soil are in thermal equilibrium, given that the canopy temperature (Tc) can be approximated to the soil temperature (Ts) {cite:p}`Hornbuckle2005,fernandez-moran2017b`. In this context, we can represent both temperatures with a single effective temperature (Teff). This temperature is derived from the Ka band using the formulation of Holmes, which relies on the Ka-band {cite:p}`holmes2009`, although alternative approaches may be considered.
+For both ascending and descending satellite passes, it is assumed that the air, vegetation, and near-surface soil are in thermal equilibrium, given that the canopy temperature (Tc) can be approximated to the soil temperature (Ts) {cite:p}`Hornbuckle2005,fernandez-moran2017b`. In this context, we can represent both temperatures with a single effective temperature (Teff). This temperature can be initially derived from CIMR Ka band using the linear regression formulation of Holmes {cite:p}`holmes2009`, although the use of the CIMR LST product or ECMWF will also be considered.
 
 Regarding soil roughness parameterization, the formulation used is simplified to represent soil roughness with a single parameter, H, derived from the full formulation proposed by Wang and Choudhury {cite:p}`wang1981remote`. For simplification purposes, both soil roughness and vegetation scattering albedo are considered time invariant, despite their values varying on a global scale.
 
@@ -97,7 +105,7 @@ Functional flow diagram of Level-2 Soil moisture and VOD retrieval algorithm.
 
 ##### Pre-processing of input TB
 
-The processing algorithm primarily relies on the CIMR L1B TB product that is calibrated, geolocated and undergoes several corrections, such as atmospheric effects, Faraday rotation and RFI effects. (l1_b)
+The processing algorithm primarily relies on the CIMR L1b TB product that is calibrated, geolocated and undergoes several corrections, such as atmospheric effects, Faraday rotation and RFI effects. 
 Merge fore- and aft-look TB
 
 
@@ -194,6 +202,7 @@ position may change seasonally.
 Note 4: Example maps form Yamazaki et al (2019), “MERIT Hydro river width (right) are
 shown below.
 Note 5: Monthly masks could be considered, with possible updates during the mission.
+
 
     |
 --> 
