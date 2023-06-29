@@ -7,13 +7,8 @@
 :name: InpData
 | Parameter   | Description                                                                 | Shape/Amount                      |
 |-------------|-----------------------------------------------------------------------------|----------------------------------|
-<<<<<<< HEAD
 | L1B TB      | L1B Brightness Temperature at L, C and X-bands (both H and V polarization) | *Full swath or swath section (Nscans, Npos)* |
 | L1B NeΔT | Random radiometric uncertainty of the channels | *Full swath or swath section (Nscans, Npos)* |
-=======
-| L1b TB      | L1b Brightness Temperature at L, C and X-bands (both H and V polarization) | *Full swath (Nscans, Npos)* |
-| TB_err      | Brightness Temperature error                                                | *Full swath (Nscans, Npos)* |
->>>>>>> 1f0d53ca7a032b27557462f9f5e8578f98fa8ed2
 ```
 
 ### Output data
