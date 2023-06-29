@@ -83,7 +83,7 @@ Conceptual flow of Level-1b resampling to exploit CIMR oversampling and nested s
 
 The CIMR algorithm incorporates several simplifications, which are detailed below.
 
-For both ascending and descending satellite passes, it is assumed that the air, vegetation, and near-surface soil are in thermal equilibrium, given that the canopy temperature (Tc) can be approximated to the soil temperature (Ts) {cite:p}`Hornbuckle2005,fernandez-moran2017b`. In this context, we can represent both temperatures with a single effective temperature (Teff). This temperature can be initially derived from CIMR Ka band using the linear regression formulation of Holmes {cite:p}`holmes2009`, although the use of the CIMR LST product or ECMWF will also be considered.
+For both ascending and descending satellite passes, it is assumed that the air, vegetation, and near-surface soil are in thermal equilibrium, given that the canopy temperature (Tc) can be approximated to the soil temperature (Ts) {cite:p}`Hornbuckle2005,fernandez-moran2017b`. In this context, we can represent both temperatures with a single effective temperature (Teff). 
 
 Regarding soil roughness parameterization, the formulation used is simplified to represent soil roughness with a single parameter, H, derived from the full formulation proposed by Wang and Choudhury {cite:p}`wang1981remote`. For simplification purposes, both soil roughness and vegetation scattering albedo are considered time invariant, despite their values varying on a global scale.
 
@@ -102,14 +102,10 @@ Functional flow diagram of Level-2 Soil moisture and VOD retrieval algorithm.
 
 ##### Pre-processing of input TB
 
-The processing algorithm primarily relies on the CIMR L1b TB product that is calibrated, geolocated and undergoes several corrections, such as atmospheric effects, Faraday rotation and RFI effects. 
-Merge fore- and aft-look TB
+The processing algorithm primarily relies on the CIMR L1b TB product that is calibrated, geolocated and undergoes several corrections, such as atmospheric effects, Faraday rotation and RFI effects. L, C, and X-bands are used as inputs to the Soil Moisture and VOD inversion. At each of these frequencies, fore- and aft-look TB data are merged and corrected for the presence of standing water. L-band undergoes an optimal interpolation or image reconstruction step and is resampled to C-band channel swath geometry (at the RGB toolbox). This product, TB_L, is directly used as input to the Level-2 retrieval algorithm to obtain the SM and L-VOD at coarse resolution (<60km). TB_L is also combined with C and X bands into an enhanced-resolution product TB_L_E, that is used as input to the Level-2 algorithm to obtain SM and L-VOD at an enhanced spatial resolution (~15km).
 
+Ku/Ka bands are processed independently to obtain the effective land surface temperature that is used as input in the Soil Moisture and VOD retrieval step, together with other static ancillary data. This temperature can be initially derived from CIMR Ka band using the linear regression formulation of Holmes {cite:p}`holmes2009`, although the use of the CIMR LST product or ECMWF will also be considered.
 
-Half orbit product (morning/afternoon).
-[Apply water TB correction]
-Optimal interpolation of L-band
-L-band sharpening, TB_L_E
 
 ##### Analyze surface quality and surface conditions
 
@@ -127,7 +123,10 @@ The input data for the model consists of two primary parameters. The first is th
 
 ##### Output data
 
-The model outputs include key parameters such as soil moisture and vegetation optical depth at a coarse and an enhanced resolution. The output data is presented in a 9 km EASE 2.0 grid. Additional information like brightness temperature, geographical data, albedo, and various flags supplement these outputs. More details can be found in [IODD](algorithm_input_output_data_definition.md).
+The model outputs include key parameters such as soil moisture and vegetation optical depth at a coarse and an enhanced resolution. The output data is presented in a 9 km EASE2 grid. Additional information like brightness temperature, geographical data, albedo, and data flags supplement these outputs. Data flags enable users to examine (a) the surface
+conditions of a grid cell, (b) the potential impact of RFI, and (c) the quality of soil moisture estimate when retrieval is attempted.
+
+More details can be found in [IODD](algorithm_input_output_data_definition.md).
 
 <!--
 ##### Auxiliary data
@@ -136,6 +135,8 @@ SubSubsection Text
 -->
 
 ##### Ancillary data
+
+Two sets of Land Surface Temperature will be included as ancillary data: the one estimated from CIMR Ka/Ku bands and the one from ECMWF. This will allow for some flexibility in the design and validation phase of the algorithm prototype. 
 
 The static global maps for CIMR H and ω are computed through a weighted method. This approach takes into consideration the fraction of the MODIS IGBP land cover class that is contained within a given CIMR pixel. The data used for these computations are derived from the IGBP classification as identified in the study conducted by Fernandez-Moran {cite:p}`fernandez-moran2017b`. In Table {ref}`wandH`, different values of ω and H are listed according to land cover type. Based on these criteria, static global maps of ω and H have been produced as part of the ancillary dataset.
 
@@ -163,7 +164,7 @@ The static global maps for CIMR H and ω are computed through a weighted method.
 
 Furthermore, a CIMR Hydrology Target mask, applied in Level-2 data processing, provides a ≤1 km resolution and covers both permanent and transitory inland water surfaces. The mask incorporates data from the MERIT Hydro {cite:p}`yamazaki2019merit` and the Global Lakes and Wetlands Database {cite:p}`lehner2004development`, and it will be updated up to four times annually to account for potential seasonal changes. Its calculation involves a previous estimation of the Surface Water Fraction (SWF) data.
 
-Moreover, the scene flags incorporate information about RFI, proximity to water body, urban, ice/snow, frozen soil, precipitation, medium and strong topographic effects.
+The scene flag incorporate information about RFI, proximity to water body, urban, ice/snow, frozen soil, precipitation, medium and strong topographic effects. 
 
 The rest of datasets that complement the ancillary information are the clay fraction (from FAO), the IGBP Land Cover type Classification (from MODIS) and the Digital Elevation Model obtained from the Shuttle Radar Topography Mission (SRTM) {cite:p}`jarvis2006,mialon2008`.
 
