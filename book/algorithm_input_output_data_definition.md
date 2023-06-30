@@ -20,8 +20,8 @@
 | lon | Longitude [0$^{\circ}$, 360$^{\circ}$] | *deg East* | *(xdim$_{grid}$, ydim$_{grid}$)* |
 | lat | Latitude [90$^{\circ}$S, 90$^{\circ}$N] | *deg North* | *(xdim$_{grid}$, ydim$_{grid}$)* |
 | time     | seconds since YYYY-MM-DD 00:00:00 UTC | *seconds* | *(xdim$_{grid}$, ydim$_{grid}$)* |
-| TB_L             | L1b Brightness Temperature at L-band | *K* | *(xdim$_{grid}$, ydim$_{grid}$)* |
-| TB_L_E             | L1b Enhanced Brightness Temperature at L-band | *K* | *(xdim$_{grid}$, ydim$_{grid}$)* |
+| TB_L             | L1B Brightness Temperature at L-band | *K* | *(xdim$_{grid}$, ydim$_{grid}$)* |
+| TB_L_E             | L1B Enhanced Brightness Temperature at L-band | *K* | *(xdim$_{grid}$, ydim$_{grid}$)* |
 | SM             | Soil Moisture | *m$^{3}$/m$^{3}$* | *(xdim$_{grid}$, ydim$_{grid}$)* |
 | SM_E             | Enhanced Soil Moisture | *m$^{3}$/m$^{3}$* | *(xdim$_{grid}$, ydim$_{grid}$)* |
 | VOD  | Vegetation Optical Depth | - | *(xdim$_{grid}$, ydim$_{grid}$)* |

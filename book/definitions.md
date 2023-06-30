@@ -34,10 +34,5 @@ Soil Moisture and Ocean Salinity
     The SMOS (Soil Moisture and Ocean Salinity) mission, launched in 2009 by the European Space Agency, is dedicated to making global observations of soil moisture over land and salinity over oceans using a passive microwave sensor.
 
 Vegetation Optical Depth
-    Vegetation optical depth (VOD) is a parameter that characterizes the extinction effects due to vegetation, including attenuation and scattering, on microwave radiations propagating through the vegetation canopy. It is related almost linearly to the vegetation water content and indirectly to vegetation water status and biomass
-
-Vegetation Water Content
-    VWC
-  
-   
+    Vegetation optical depth (VOD) is a parameter that characterizes the extinction effects due to vegetation, including attenuation and scattering, on microwave radiations propagating through the vegetation canopy. It is related almost linearly to the vegetation water content and indirectly to vegetation water status and biomass 
 ```
