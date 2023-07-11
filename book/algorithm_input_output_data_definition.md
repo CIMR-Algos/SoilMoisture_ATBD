@@ -42,13 +42,13 @@
 :name: AncData
 | Parameter                               | Description                                         | Shape/Amount               |
 |-----------------------------------------|-----------------------------------------------------|----------------------------|
-| CIMR_SWF                     | CIMR Surface Water Fraction  |  *(Nscans, Npos)* |
-| CIMR_LST                     | CIMR Land Surface Temperature  |  *(Nscans, Npos)* |
-| LST                     | Land Surface Temperature  (from ECMWF)  |  *(Nscans, Npos)* |
-| soil_texture            | Clay fraction (from FAO)     |  *(Nscans, Npos)* |
-| LCC          | IGBP Land Cover type Classification (from MODIS) |   *(17, Nscans, Npos)* |
-| albedo     | Vegetation single scattering albedo (from SMOS-IC)  |  *(Nscans, Npos)* |
-| H           | Surface roughness information (from SMOS-IC)   |  *(Nscans, Npos)* |
-| DEM                  | Digital Elevation Model     | *(Nscans, Npos)* |
-| hydrology_mask                     | CIMR Hydrology Target mask ([RD-1, MRD-854]) |  *(Nscans, Npos)* |
+| CIMR_SWF                     | CIMR Surface Water Fraction  |  *(xdim$_{grid}$, ydim$_{grid}$)* |
+| CIMR_LST                     | CIMR Land Surface Temperature  |  *(xdim$_{grid}$, ydim$_{grid}$)* |
+| LST                     | Land Surface Temperature  (from ECMWF)  |  *(xdim$_{grid}$, ydim$_{grid}$)* |
+| soil_texture            | Clay fraction (from FAO)     |  *(xdim$_{grid}$, ydim$_{grid}$)* |
+| LCC          | IGBP Land Cover type Classification (from MODIS) |   *(17, xdim$_{grid}$, ydim$_{grid}$)* |
+| albedo     | Vegetation single scattering albedo (from SMOS-IC)  |  *(xdim$_{grid}$, ydim$_{grid}$)* |
+| H           | Surface roughness information (from SMOS-IC)   |  *(xdim$_{grid}$, ydim$_{grid}$)* |
+| DEM                  | Digital Elevation Model     | *(xdim$_{grid}$, ydim$_{grid}$)* |
+| hydrology_mask                     | CIMR Hydrology Target mask ([RD-1, MRD-854]) |  *(xdim$_{grid}$, ydim$_{grid}$)* |
 ```
