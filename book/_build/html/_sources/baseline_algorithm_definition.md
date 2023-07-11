@@ -66,11 +66,9 @@ An initial constant value of $0.2 m^3/m^3$ is assumed for SM and $\sigma(SM)$, w
 
 The CIMR Level-2 Soil Moisture retrieval algorithm will provide two soil moisture products: the first based on the inversion of L-band only TBs at its native resolution (<60 km, Hydroclimatological), the second one based on the inversion of L-band at an enhanced spatial resolution (~10 to 25 km Hydrometeorological). The enhanced L-band targets an effective mean spatial resolution of 15-km and is based on sharpening techniques that exploit the C-band and X-band channels (Zhang et al., in prep. 2023). 
 
-Figure {numref}`resampling` illustrates the Level-1b resampling approach starting with a Backus-Gilbert or Scatterometer Image Reconstruction analysis applied at L-band with footprints matched to the C-band channel in swath geometry (at CIMR RGB Toolbox). The objective of this first step is to optimize L-band reconstruction to provide the highest possible spatial resolution at the lowest noise level ({cite:p}`Long2019`). The second step consists on the application of a sharpening algorithm to combine the reconstructed or optimally interpolated L-band to 15 km C/X-bands to estimate an equivalent 15 km L-band. The effective resolution of the TB_L and TB_L_E products will be evaluated and compared (e.g. ad in {cite:p}`Long2023`). Inputs to Level-2 Processor are initially being planned to be provided in C-band channel swath geometry although the convenience of using gridded products (including generation of Level-1c) needs to be assessed at a later phase during the project. The third step is the projection on an Earth-based map projection grid. CIMR Level-2 Soil Moisture products with an effective spatial resolution of <60 km (L-band only) and ~15 km (after sharpening using C/X bands) are planned to be projected on a 9 km EASE2 grid. The CIMR radiometer is conically scanning and its high degree of oversampling provides flexibility in resampling the data, supporting the use of a finer grid (posting resolution) than the TB effective resolution {cite:p}`Long2023`. At L-band, CIMR TB measurements are collected with an along-scan spacing of approximately 8 km, while there is an overlap of 29 % in the along-track direction (no spacing). The proposed 9 km gridding resolution is thus initially selected to preserve as much information as possible. Note that the use of the same gridding resolution for the two products will facilitate their direct comparison and algorithm prototype development at this stage of the project, but the use of an EASE2 grid with a kernel of 3 km (then multiples thereof), e.g. 9 km and 36 km as shown in Fig. {numref}`resampling` will also be considered upon characterization of the tradeoff between noise and spatial resolution of the 2-D gridded images.    
 
-<!--
-Level-2 products are planned to be projected on an EASE grid with a kernel of 3 km (then multiples thereof), i.e. Ka/Ku-bands at 3 Km, C/X-bands at 9 km, L-band at 36km. The benefit of using swath-based projections should be evaluated with dedicated experiments.
--->
+Figure {numref}`resampling` illustrates the Level-1b resampling approach starting with a Backus-Gilbert or Scatterometer Image Reconstruction analysis applied at L-band with footprints matched to the C-band channel in swath geometry (at CIMR RGB Toolbox). The objective of this first step is to optimize L-band reconstruction to provide the highest possible spatial resolution at the lowest noise level {cite:p}`Long2019`. The second step consists on the application of a sharpening algorithm to combine the reconstructed or optimally interpolated L-band to 15 km C/X-bands to estimate an equivalent 15 km L-band. The effective resolution of the TB_L and TB_L_E products will be evaluated and compared (e.g. as in {cite:p}`Long2023`). Inputs to Level-2 Processor are initially being planned to be provided in C-band channel swath geometry although the convenience of using gridded products (including generation of Level-1c) needs to be assessed at a later phase during the project. The third step is the projection on an Earth-based map projection grid. CIMR Level-2 Soil Moisture products with an effective spatial resolution of <60 km (L-band only) and ~15 km (after sharpening using C/X bands) are planned to be projected on a 9 km EASE2 grid. The CIMR radiometer is conically scanning and its high degree of oversampling provides flexibility in resampling the data, supporting the use of a finer grid (posting resolution) than the TB effective resolution {cite:p}`Long2023`. At L-band, CIMR TB measurements are collected with an along-scan spacing of approximately 8 km, while there is an overlap of 29 % in the along-track direction (no spacing). The proposed 9 km gridding resolution is thus initially selected to preserve as much information as possible. Note that the use of the same gridding resolution for the two products will facilitate their direct comparison and algorithm prototype development at this stage of the project, but the use of an EASE2 grid with a kernel of 3 km (then multiples thereof), e.g. 9 km and 36 km as shown in Fig. {numref}`resampling` will also be considered upon characterization of the tradeoff between noise and spatial resolution of the 2-D gridded images.    
+
 
 ```{figure} /images/Level1b_resampling.png
 --- 
@@ -168,46 +166,5 @@ Furthermore, a CIMR Hydrology Target mask, applied in Level-2 data processing, p
 The scene flag incorporate information about RFI, proximity to water body, urban, ice/snow, frozen soil, precipitation, medium and strong topographic effects. 
 
 The rest of datasets that complement the ancillary information are the clay fraction (from FAO), the IGBP Land Cover type Classification (from MODIS) and the Digital Elevation Model obtained from the Shuttle Radar Topography Mission (SRTM) {cite:p}`jarvis2006,mialon2008`.
-
-
-<!--
-[MRD-854]
-
-A CIMR Hydrology Target mask shall be used for Level-2 data processing
-activities according to the following specification:
-The Hydrology Target Mask shall have a spatial resolution of ≤1 km.
-It shall include fractional water surfaces with a spatial resolution ≤ 1 x 1 km
-Inland water surfaces (lakes reservoirs, rivers, as well as wetlands) shall be
-identified in the database.
-Both permanent and transitory water surfaces shall be identified with seasonality
-information.
-The baseline data set shall include the Yamazaki et al. (2019) MERIT Hydro at
-~90m: Global Hydrography Datase available at http://hydro.iis.utokyo.
-ac.jp/~yamadai/MERIT_Hydro
-The baseline data set shall include The Global Lakes and Wetlands Database
-(Lernher and Doll, 2004) at 1 km data set that can provide complementary
-information on the water surfaces. A GLWD2 version should soon available at
-500m spatial resolution, with improved information. Auxiliary data (e.g., Digital
-elevation models) as required depending on the implementation of CIMR.
-Other aspects as required depending on the implementation of CIMR.
-
-Note 1: The CIMR Hydrology Target Mask specifies lake, reservoir, and wetland targets
-for the CIMR mission.
-Note 2: The mask considers large lakes that are greater than 5 km since Ka-band CIMR
-measurement footprint are <5 km.
-Note 3: The Hydrology Target Mask shall be re-evaluated and uploaded to the satellite up
-to 4 (TBC) times per year. This is necessary since river spatial extent and
-position may change seasonally.
-Note 4: Example maps form Yamazaki et al (2019), “MERIT Hydro river width (right) are
-shown below.
-Note 5: Monthly masks could be considered, with possible updates during the mission.
-
-
-    |
---> 
-
-##### Validation process
-
-SubSubsection Text
 
 
