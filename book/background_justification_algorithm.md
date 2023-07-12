@@ -22,12 +22,12 @@ Observations from the CIMR (Copernicus Imaging Microwave Radiometer) mission wil
 
 ## Physical approach
 
-At microwave frequencies, the intensity of emission is proportional to the surface temperature and emissivity, which is commonly referred to as brightness temperature (TB) using the Rayleigh-Jeans approximation. When the microwave sensor orbits above the Earth, the observed TB includes energy from the soil (attenuated by the vegetation), and vegetation, downwelling atmospheric emission and cosmic background emission reflected by the surface and attenuated by vegetation, and the upwelling atmospheric emission ({numref}`Figure1`). The atmosphere transmissivity (τ<sub>atm</sub>) is approximately equal to 1, and the cosmic background temperature (T<sub>sky</sub>) is around 2.7 K. 
+At microwave frequencies, the intensity of emission is proportional to the surface temperature and emissivity, which is commonly referred to as brightness temperature (TB) using the Rayleigh-Jeans approximation. When the microwave sensor orbits above the Earth, the observed TB includes energy from the soil (attenuated by the vegetation), and vegetation, downwelling atmospheric emission and cosmic background emission reflected by the surface and attenuated by vegetation, and the upwelling atmospheric emission ({numref}`Figure_1`). The atmosphere transmissivity (τ<sub>atm</sub>) is approximately equal to 1, and the cosmic background temperature (T<sub>sky</sub>) is around 2.7 K. 
 
 ```{figure} /images/tbb_contributions.jpg
+---  
+name: Figure_1 
 --- 
-name: Figure1
----
 Contributions to the Top Of Atmosphere (TOA) brigthness temperature [from SMOS ATBD, ref. 12 and SMAP ATBD, Figure 2]
 ```
 
